@@ -1252,7 +1252,7 @@
 
   <main class="page">
     <div class="container">
-      <section class="hero-copy">
+      <section class="hero-copy" data-analytics-label="hero">
         <p class="eyebrow">Creative Playground</p>
         <h1 class="title">Hobby Works Beyond Office Projects</h1>
         <p class="subtitle">A collection of personal experiments, creative explorations, AI-assisted builds, and passion projects created outside of client work. This space allows me to explore new ideas, tools, and design approaches while continuously learning, experimenting, and growing as a designer.</p>
@@ -1489,6 +1489,11 @@
     filterSelectTrigger.addEventListener('click', () => {
       const isOpen = filterSelect.classList.toggle('is-open');
       filterSelectTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      // only the open half is worth a hit - the close is implied by whatever
+      // filter comes next, or by the outside-click handler above
+      if (isOpen && window.umami && typeof window.umami.track === 'function') {
+        window.umami.track('playground-filter-open');
+      }
     });
 
     document.addEventListener('click', (event) => {
