@@ -1421,11 +1421,10 @@
     }
 
     /* ─── Outcome & Impact cards ───
-       Tinted colour cards: label, then a large stat (or a large icon where
-       the outcome isn't a number), then the explanation, then a simple
-       abstract illustration anchored to the bottom. Palettes stay inside
-       the site's blue/violet/purple family, cycling per card the same way
-       the About page's domain map does.
+       Same pattern as the About page's hobby cards: a tonal wash from the
+       card's accent, an accent-tinted border, a soft corner glow and a
+       gradient-filled illustration in the bottom-right corner. Where the
+       outcome is a number, the number is part of that illustration.
        Flex rather than grid, because a trailing short row (3+2) then
        centres instead of hugging the left edge. */
     .case-section .oi-grid {
@@ -1443,29 +1442,43 @@
       flex: 0 1 calc(33.333% - 0.67rem);
       min-width: 250px;
       max-width: 370px;
+      position: relative;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: 1.5rem 1.4rem 1.35rem;
+      padding: 1.6rem 1.4rem 1.5rem;
       border-radius: 16px;
-      background: var(--oi-bg);
-      box-shadow: 0 1px 2px rgba(var(--shadow-rgb),calc(0.3*var(--shadow-a)));
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+      background: linear-gradient(155deg,
+                  color-mix(in srgb, var(--oi-acc) 17%, var(--card-base-2)) 0%,
+                  rgba(var(--surface-rgb),0.74) 58%);
+      border: 1px solid color-mix(in srgb, var(--oi-acc) 26%, transparent);
+      transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
     }
     .case-section .oi-grid--two .oi-card {
       flex-basis: calc(50% - 0.5rem);
       max-width: 440px;
     }
-    .case-section .oi-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 16px 34px rgba(var(--shadow-rgb),calc(0.42*var(--shadow-a)));
+    .case-section .oi-card::after {
+      content: '';
+      position: absolute;
+      bottom: -50%; right: -35%;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--oi-acc) 20%, transparent) 0%, transparent 70%);
+      pointer-events: none;
+      transition: transform 0.4s ease;
     }
-    /* Same family as the section heading all along - what made these hard
-       to read was the treatment: 11px, uppercase, wide tracking. Set them
-       in sentence case at a readable size instead, subordinate to the h2
-       but styled like it. The source text is already sentence case, so
-       only the transform had to go. */
+    .case-section .oi-card:hover {
+      border-color: color-mix(in srgb, var(--oi-acc) 52%, transparent);
+      background: rgba(var(--surface-2-rgb),0.85);
+      transform: translateY(-4px);
+    }
+    .case-section .oi-card:hover::after { transform: scale(1.35); }
+    /* text rides above both the illustration and the glow */
     .case-section .oi-card__title {
-      margin: 0 0 1.15rem;
+      position: relative;
+      z-index: 1;
+      margin: 0 0 0.6rem;
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.98rem;
@@ -1474,43 +1487,27 @@
       line-height: 1.4;
       color: var(--oi-acc);
     }
-    .case-section .oi-card__metric {
-      margin: 0 0 1.1rem;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 2.9rem;
-      line-height: 1;
-      letter-spacing: -0.01em;
-      /* dialled back from full-strength white: still clearly above the
-         0.72 body text, without shouting */
-      color: rgba(var(--text-hi-rgb), 0.84);
-    }
-    /* stands in for the stat on cards whose outcome isn't a number */
-    .case-section .oi-card__icon {
-      display: block;
-      width: 2.6rem;
-      height: 2.6rem;
-      margin-bottom: 1.1rem;
-      color: rgba(var(--text-hi-rgb), 0.84);
-    }
-    .case-section .oi-card__icon svg { width: 100%; height: 100%; }
     .case-section .oi-card__desc {
+      position: relative;
+      z-index: 1;
       margin: 0;
       font-size: 0.855rem;
       line-height: 1.7;
       color: rgba(var(--text-hi-rgb),0.72);
+      /* keeps copy clear of the artwork in the bottom-right */
+      padding-bottom: 4.5rem;
     }
-    /* pinned to the bottom so cards in a row line up regardless of copy */
+    /* corner illustration: tonal shapes built from gradients */
     .case-section .oi-card__art {
-      display: block;
-      margin-top: auto;
-      padding-top: 1.4rem;
       color: var(--oi-acc);
-      opacity: 0.62;
-      transition: opacity 0.3s ease;
+      position: absolute;
+      right: 0; bottom: 0;
+      width: 140px; height: 140px;
+      pointer-events: none;
+      z-index: 0;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .case-section .oi-card:hover .oi-card__art { opacity: 0.85; }
-    .case-section .oi-card__art svg { width: 100%; height: auto; display: block; }
+    .case-section .oi-card:hover .oi-card__art { transform: scale(1.09); }
     @media (max-width: 900px) {
       .case-section .oi-card,
       .case-section .oi-grid--two .oi-card { flex-basis: calc(50% - 0.5rem); }
@@ -2143,33 +2140,28 @@
       <div class="oi-grid">
         <article class="oi-card" style="--oi-bg:var(--oi-2-bg);--oi-acc:var(--oi-2-acc);">
           <p class="oi-card__title">Higher Completion on Rebuilt Quizzes</p>
-          <p class="oi-card__metric">45%</p>
           <p class="oi-card__desc">For brands with existing quizzes suffering from low completion, rebuilding the flow itself, not just the visuals, raised completion rates by 45%, proving the fix addressed the actual drop-off points rather than surface polish.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><line x1="12" y1="10" x2="108" y2="10" stroke="currentColor" stroke-width="1.4" opacity=".3"/><circle cx="12" cy="10" r="5" fill="currentColor" opacity=".9"/><circle cx="36" cy="10" r="5" fill="currentColor" opacity=".9"/><circle cx="60" cy="10" r="5" fill="currentColor" opacity=".9"/><circle cx="84" cy="10" r="5" fill="currentColor" opacity=".9"/><circle cx="108" cy="10" r="5" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".5"/><rect x="4" y="26" width="112" height="9" rx="4.5" fill="currentColor" opacity="0.22"/><rect x="4" y="26" width="86" height="9" rx="4.5" fill="currentColor" opacity="1"/></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiSh1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiSh1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient><linearGradient id="oiSh1n" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.95"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.45"/></linearGradient></defs><path d="M62 76h72" stroke="currentColor" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g fill="url(#oiSh1a)"><circle cx="62" cy="76" r="10"/><circle cx="86" cy="76" r="10"/><circle cx="110" cy="76" r="10"/></g><circle cx="134" cy="76" r="10" fill="url(#oiSh1b)"/><circle cx="134" cy="76" r="10" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g stroke="currentColor" stroke-opacity="0.32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M58 76l3 3 5-6"/><path d="M82 76l3 3 5-6"/><path d="M106 76l3 3 5-6"/></g><rect x="54" y="98" width="100" height="8" rx="4" fill="url(#oiSh1b)"/><rect x="54" y="98" width="72" height="8" rx="4" fill="currentColor" fill-opacity="0.18"/><text x="151" y="147" text-anchor="end" font-family="Syne, sans-serif" font-weight="800" font-size="44" letter-spacing="-1" fill="url(#oiSh1n)">45%</text></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-3-bg);--oi-acc:var(--oi-3-acc);">
           <p class="oi-card__title">Lift in Conversion Through Brand-Specific Logic</p>
-          <p class="oi-card__metric">30%</p>
           <p class="oi-card__desc">Designing question flow and recommendation logic around each brand's real audience and purchase behaviour, instead of a shared template, improved product conversion by 30% across brands with very different customers.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><g stroke="currentColor" stroke-width="1.6" fill="none" opacity=".5"><path d="M18 20 H40"/><path d="M40 20 V7 H70"/><path d="M40 20 H70"/><path d="M40 20 V33 H70"/></g><circle cx="12" cy="20" r="6" fill="currentColor"/><g opacity=".8"><rect x="74" y="2" width="42" height="10" rx="2" fill="currentColor"/><rect x="74" y="15" width="42" height="10" rx="2" fill="currentColor"/><rect x="74" y="28" width="42" height="10" rx="2" fill="currentColor"/></g></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiSh2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiSh2b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient><linearGradient id="oiSh2n" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.95"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.45"/></linearGradient></defs><path d="M70 82c18 0 18-18 36-18M70 82c18 0 18 18 36 18M106 64h20M106 100h20" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="64" cy="82" r="11" fill="url(#oiSh2a)"/><g fill="url(#oiSh2b)"><rect x="104" y="54" width="44" height="20" rx="6"/><rect x="104" y="90" width="44" height="20" rx="6"/></g><rect x="104" y="90" width="44" height="20" rx="6" fill="url(#oiSh2a)"/><g fill="currentColor" fill-opacity="0.24"><circle cx="64" cy="82" r="4"/><circle cx="114" cy="64" r="3"/><circle cx="114" cy="100" r="3"/></g><text x="151" y="147" text-anchor="end" font-family="Syne, sans-serif" font-weight="800" font-size="44" letter-spacing="-1" fill="url(#oiSh2n)">30%</text></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-1-bg);--oi-acc:var(--oi-1-acc);">
           <p class="oi-card__title">New Quiz Experiences Built With Zero Legacy Debt</p>
-          <span class="oi-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg></span>
           <p class="oi-card__desc">For clients starting from nothing, quizzes were designed from first principles rather than adapted from an existing pattern, giving those brands a purpose-built experience instead of a retrofit.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><rect x="4" y="8" width="40" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 3" opacity=".45"/><path d="M51 20 h11 m-4.5 -4.5 l4.5 4.5 -4.5 4.5" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/><rect x="70" y="8" width="46" height="7" rx="2" fill="currentColor" opacity="0.85"/><rect x="70" y="18" width="30" height="7" rx="2" fill="currentColor" opacity="0.62"/><rect x="70" y="28" width="38" height="7" rx="2" fill="currentColor" opacity="0.45"/></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiSh3a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiSh3b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="52" y="82" width="64" height="68" rx="9" fill="url(#oiSh3b)" transform="rotate(-9 84 116)"/><rect x="52" y="82" width="64" height="68" rx="9" stroke="currentColor" stroke-opacity="0.14" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="3 4" transform="rotate(-9 84 116)"/><rect x="82" y="72" width="70" height="80" rx="10" fill="url(#oiSh3a)"/><g fill="currentColor" fill-opacity="0.14"><rect x="92" y="96" width="44" height="5" rx="2.5"/><rect x="92" y="106" width="32" height="5" rx="2.5"/><rect x="92" y="126" width="50" height="14" rx="5"/></g><circle cx="100" cy="83" r="4" fill="currentColor" fill-opacity="0.26"/><path d="M146 54l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="currentColor" fill-opacity="0.24"/></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-4-bg);--oi-acc:var(--oi-4-acc);">
           <p class="oi-card__title">Consistent Quality Across Genuinely Different Industries</p>
-          <span class="oi-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
           <p class="oi-card__desc">A fast discovery process for each new brand meant quality held steady whether the client sold beauty products or hardware, proving domain speed didn't come at the cost of relevance.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><line x1="2" y1="35" x2="118" y2="35" stroke="currentColor" stroke-width="1.5" opacity=".4"/><g opacity=".8"><rect x="8" y="13" width="18" height="22" rx="2" fill="currentColor"/><circle cx="47" cy="24" r="11" fill="currentColor"/><path d="M72 35 L83 13 L94 35 Z" fill="currentColor"/><rect x="100" y="13" width="16" height="22" rx="8" fill="currentColor"/></g></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiSh4a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiSh4b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><g fill="url(#oiSh4a)"><rect x="52" y="90" width="32" height="56" rx="7"/><rect x="124" y="90" width="32" height="56" rx="7"/></g><rect x="88" y="78" width="32" height="56" rx="7" fill="url(#oiSh4b)"/><rect x="88" y="78" width="32" height="56" rx="7" stroke="currentColor" stroke-opacity="0.16" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g fill="currentColor" fill-opacity="0.26"><circle cx="68" cy="106" r="7"/><rect x="97" y="87" width="14" height="14" rx="3"/><path d="M140 98l8 14h-16z"/></g><g fill="currentColor" fill-opacity="0.12"><rect x="58" y="122" width="20" height="4" rx="2"/><rect x="58" y="131" width="14" height="4" rx="2"/><rect x="94" y="110" width="20" height="4" rx="2"/><rect x="94" y="119" width="14" height="4" rx="2"/><rect x="130" y="122" width="20" height="4" rx="2"/><rect x="130" y="131" width="14" height="4" rx="2"/></g></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-5-bg);--oi-acc:var(--oi-5-acc);">
           <p class="oi-card__title">Quizzes Shipped Across International Shopify Brands</p>
-          <p class="oi-card__metric">10+</p>
           <p class="oi-card__desc">Delivered at this range and scale, the approach proved repeatable, not a one-off success, across multiple markets and product categories.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><rect x="2.0" y="1" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.45"/><rect x="21.5" y="1" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.6"/><rect x="41.0" y="1" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="60.5" y="1" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.9"/><rect x="80.0" y="1" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.45"/><rect x="99.5" y="1" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.6"/><rect x="2.0" y="21" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="21.5" y="21" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.9"/><rect x="41.0" y="21" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.45"/><rect x="60.5" y="21" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.6"/><rect x="80.0" y="21" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="99.5" y="21" width="17" height="17" rx="2.5" fill="currentColor" opacity="0.9"/></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiSh5a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiSh5b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient><linearGradient id="oiSh5n" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.95"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.45"/></linearGradient></defs><circle cx="112" cy="84" r="34" fill="url(#oiSh5a)"/><g stroke="currentColor" stroke-opacity="0.18" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="112" cy="84" r="34"/><ellipse cx="112" cy="84" rx="14" ry="34"/><path d="M78 84h68M83 67h58M83 101h58"/></g><circle cx="146" cy="58" r="5" fill="currentColor" fill-opacity="0.24"/><circle cx="66" cy="66" r="3.4" fill="currentColor" fill-opacity="0.18"/><text x="151" y="147" text-anchor="end" font-family="Syne, sans-serif" font-weight="800" font-size="44" letter-spacing="-1" fill="url(#oiSh5n)">10+</text></svg>
         </article>
       </div>
     </section>

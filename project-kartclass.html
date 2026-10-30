@@ -1348,11 +1348,10 @@
     }
 
     /* ─── Outcome & Impact cards ───
-       Tinted colour cards: label, then a large stat (or a large icon where
-       the outcome isn't a number), then the explanation, then a simple
-       abstract illustration anchored to the bottom. Palettes stay inside
-       the site's blue/violet/purple family, cycling per card the same way
-       the About page's domain map does.
+       Same pattern as the About page's hobby cards: a tonal wash from the
+       card's accent, an accent-tinted border, a soft corner glow and a
+       gradient-filled illustration in the bottom-right corner. Where the
+       outcome is a number, the number is part of that illustration.
        Flex rather than grid, because a trailing short row (3+2) then
        centres instead of hugging the left edge. */
     .case-section .oi-grid {
@@ -1370,29 +1369,43 @@
       flex: 0 1 calc(33.333% - 0.67rem);
       min-width: 250px;
       max-width: 370px;
+      position: relative;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      padding: 1.5rem 1.4rem 1.35rem;
+      padding: 1.6rem 1.4rem 1.5rem;
       border-radius: 16px;
-      background: var(--oi-bg);
-      box-shadow: 0 1px 2px rgba(var(--shadow-rgb),calc(0.3*var(--shadow-a)));
-      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+      background: linear-gradient(155deg,
+                  color-mix(in srgb, var(--oi-acc) 17%, var(--card-base-2)) 0%,
+                  rgba(var(--surface-rgb),0.74) 58%);
+      border: 1px solid color-mix(in srgb, var(--oi-acc) 26%, transparent);
+      transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
     }
     .case-section .oi-grid--two .oi-card {
       flex-basis: calc(50% - 0.5rem);
       max-width: 440px;
     }
-    .case-section .oi-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 16px 34px rgba(var(--shadow-rgb),calc(0.42*var(--shadow-a)));
+    .case-section .oi-card::after {
+      content: '';
+      position: absolute;
+      bottom: -50%; right: -35%;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--oi-acc) 20%, transparent) 0%, transparent 70%);
+      pointer-events: none;
+      transition: transform 0.4s ease;
     }
-    /* Same family as the section heading all along - what made these hard
-       to read was the treatment: 11px, uppercase, wide tracking. Set them
-       in sentence case at a readable size instead, subordinate to the h2
-       but styled like it. The source text is already sentence case, so
-       only the transform had to go. */
+    .case-section .oi-card:hover {
+      border-color: color-mix(in srgb, var(--oi-acc) 52%, transparent);
+      background: rgba(var(--surface-2-rgb),0.85);
+      transform: translateY(-4px);
+    }
+    .case-section .oi-card:hover::after { transform: scale(1.35); }
+    /* text rides above both the illustration and the glow */
     .case-section .oi-card__title {
-      margin: 0 0 1.15rem;
+      position: relative;
+      z-index: 1;
+      margin: 0 0 0.6rem;
       font-family: var(--font-display);
       font-weight: 700;
       font-size: 0.98rem;
@@ -1401,43 +1414,27 @@
       line-height: 1.4;
       color: var(--oi-acc);
     }
-    .case-section .oi-card__metric {
-      margin: 0 0 1.1rem;
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 2.9rem;
-      line-height: 1;
-      letter-spacing: -0.01em;
-      /* dialled back from full-strength white: still clearly above the
-         0.72 body text, without shouting */
-      color: rgba(var(--text-hi-rgb), 0.84);
-    }
-    /* stands in for the stat on cards whose outcome isn't a number */
-    .case-section .oi-card__icon {
-      display: block;
-      width: 2.6rem;
-      height: 2.6rem;
-      margin-bottom: 1.1rem;
-      color: rgba(var(--text-hi-rgb), 0.84);
-    }
-    .case-section .oi-card__icon svg { width: 100%; height: 100%; }
     .case-section .oi-card__desc {
+      position: relative;
+      z-index: 1;
       margin: 0;
       font-size: 0.855rem;
       line-height: 1.7;
       color: rgba(var(--text-hi-rgb),0.72);
+      /* keeps copy clear of the artwork in the bottom-right */
+      padding-bottom: 4.5rem;
     }
-    /* pinned to the bottom so cards in a row line up regardless of copy */
+    /* corner illustration: tonal shapes built from gradients */
     .case-section .oi-card__art {
-      display: block;
-      margin-top: auto;
-      padding-top: 1.4rem;
       color: var(--oi-acc);
-      opacity: 0.62;
-      transition: opacity 0.3s ease;
+      position: absolute;
+      right: 0; bottom: 0;
+      width: 140px; height: 140px;
+      pointer-events: none;
+      z-index: 0;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .case-section .oi-card:hover .oi-card__art { opacity: 0.85; }
-    .case-section .oi-card__art svg { width: 100%; height: auto; display: block; }
+    .case-section .oi-card:hover .oi-card__art { transform: scale(1.09); }
     @media (max-width: 900px) {
       .case-section .oi-card,
       .case-section .oi-grid--two .oi-card { flex-basis: calc(50% - 0.5rem); }
@@ -2086,33 +2083,28 @@
       <div class="oi-grid">
         <article class="oi-card" style="--oi-bg:var(--oi-2-bg);--oi-acc:var(--oi-2-acc);">
           <p class="oi-card__title">A Chatbot That Feels Native, Not Bolted On</p>
-          <span class="oi-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
           <p class="oi-card__desc">By extending Kartclass's existing product patterns rather than introducing a new interface paradigm, the AI coach reads as part of the platform users already trust, not an add-on feature competing for attention.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><rect x="4" y="3" width="112" height="34" rx="4" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".7"/><line x1="4" y1="12" x2="116" y2="12" stroke="currentColor" stroke-width="1.4" opacity=".4"/><g opacity=".33"><rect x="12" y="19" width="42" height="4" rx="2" fill="currentColor"/><rect x="12" y="27" width="28" height="4" rx="2" fill="currentColor"/></g><path d="M68 17 h36 a4 4 0 0 1 4 4 v7 a4 4 0 0 1 -4 4 h-26 l-7 5 v-5 h-3 a4 4 0 0 1 -4 -4 v-7 a4 4 0 0 1 4 -4 z" fill="currentColor" opacity=".85"/></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiKc1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiKc1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="50" y="66" width="104" height="80" rx="10" fill="url(#oiKc1b)"/><path d="M60 66h84a10 10 0 0 1 10 10v6H50v-6a10 10 0 0 1 10-10z" fill="currentColor" fill-opacity="0.09"/><g fill="currentColor" fill-opacity="0.13"><rect x="60" y="92" width="40" height="5" rx="2.5"/><rect x="60" y="102" width="28" height="5" rx="2.5"/></g><path d="M96 110h48a8 8 0 0 1 8 8v14a8 8 0 0 1-8 8h-30l-10 10v-10h-8a8 8 0 0 1-8-8v-14a8 8 0 0 1 8-8z" fill="url(#oiKc1a)"/><g fill="currentColor" fill-opacity="0.30"><circle cx="110" cy="125" r="3"/><circle cx="120" cy="125" r="3"/><circle cx="130" cy="125" r="3"/></g></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-3-bg);--oi-acc:var(--oi-3-acc);">
           <p class="oi-card__title">Brand Voice Maintained, Not Diluted</p>
-          <span class="oi-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg></span>
           <p class="oi-card__desc">Every chat interaction follows Kartclass's existing visual and tonal guidelines, so the assistant reinforces brand consistency instead of introducing a generic chatbot experience alongside it.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><rect x="3" y="15.0" width="5" height="10" rx="2.5" fill="currentColor" opacity="0.7166666666666667"/><rect x="11" y="11.0" width="5" height="18" rx="2.5" fill="currentColor" opacity="0.8500000000000001"/><rect x="19" y="14.0" width="5" height="12" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="27" y="9.0" width="5" height="22" rx="2.5" fill="currentColor" opacity="0.9166666666666667"/><rect x="35" y="14.0" width="5" height="12" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="43" y="11.0" width="5" height="18" rx="2.5" fill="currentColor" opacity="0.8500000000000001"/><rect x="51" y="15.0" width="5" height="10" rx="2.5" fill="currentColor" opacity="0.7166666666666667"/><rect x="59" y="15.0" width="5" height="10" rx="2.5" fill="currentColor" opacity="0.7166666666666667"/><rect x="67" y="11.0" width="5" height="18" rx="2.5" fill="currentColor" opacity="0.8500000000000001"/><rect x="75" y="14.0" width="5" height="12" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="83" y="9.0" width="5" height="22" rx="2.5" fill="currentColor" opacity="0.9166666666666667"/><rect x="91" y="14.0" width="5" height="12" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="99" y="11.0" width="5" height="18" rx="2.5" fill="currentColor" opacity="0.8500000000000001"/><rect x="107" y="15.0" width="5" height="10" rx="2.5" fill="currentColor" opacity="0.7166666666666667"/><rect x="115" y="15.0" width="5" height="10" rx="2.5" fill="currentColor" opacity="0.7166666666666667"/><rect x="123" y="11.0" width="5" height="18" rx="2.5" fill="currentColor" opacity="0.8500000000000001"/><rect x="131" y="14.0" width="5" height="12" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="139" y="9.0" width="5" height="22" rx="2.5" fill="currentColor" opacity="0.9166666666666667"/><rect x="147" y="14.0" width="5" height="12" rx="2.5" fill="currentColor" opacity="0.75"/><rect x="155" y="11.0" width="5" height="18" rx="2.5" fill="currentColor" opacity="0.8500000000000001"/><rect x="163" y="15.0" width="5" height="10" rx="2.5" fill="currentColor" opacity="0.7166666666666667"/></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiKc2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiKc2b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><circle cx="106" cy="112" r="46" fill="url(#oiKc2b)"/><rect x="61" y="104" width="6" height="16" rx="3" fill="url(#oiKc2b)"/><rect x="71" y="97" width="6" height="30" rx="3" fill="url(#oiKc2a)"/><rect x="81" y="101" width="6" height="22" rx="3" fill="url(#oiKc2b)"/><rect x="91" y="89" width="6" height="46" rx="3" fill="url(#oiKc2a)"/><rect x="101" y="80" width="6" height="64" rx="3" fill="url(#oiKc2b)"/><rect x="111" y="92" width="6" height="40" rx="3" fill="url(#oiKc2a)"/><rect x="121" y="85" width="6" height="54" rx="3" fill="url(#oiKc2b)"/><rect x="131" y="98" width="6" height="28" rx="3" fill="url(#oiKc2a)"/><rect x="141" y="102" width="6" height="20" rx="3" fill="url(#oiKc2b)"/><rect x="151" y="106" width="6" height="12" rx="3" fill="url(#oiKc2a)"/><circle cx="106" cy="112" r="46" stroke="currentColor" stroke-opacity="0.14" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-1-bg);--oi-acc:var(--oi-1-acc);">
           <p class="oi-card__title">Advice Structured Around Real Go-Karter Questions</p>
-          <span class="oi-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11M3 12h11M3 18h8"/><path d="m17 15 2 2 4-4"/></svg></span>
           <p class="oi-card__desc">Organizing content into 6 domain-specific categories means users get answers shaped by actual go-karting vocabulary and concerns, not generic coaching responses that miss the sport's specific context.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><rect x="2" y="2" width="36" height="15" rx="3" fill="currentColor" opacity="0.55"/><rect x="41" y="2" width="36" height="15" rx="3" fill="currentColor" opacity="0.55"/><rect x="80" y="2" width="36" height="15" rx="3" fill="currentColor" opacity="0.55"/><rect x="2" y="21" width="36" height="15" rx="3" fill="currentColor" opacity="0.55"/><rect x="41" y="21" width="36" height="15" rx="3" fill="currentColor" opacity="0.55"/><rect x="80" y="21" width="36" height="15" rx="3" fill="currentColor" opacity="0.55"/><g opacity=".85"><rect x="7" y="7" width="17" height="4" rx="2" fill="currentColor"/><rect x="46" y="7" width="17" height="4" rx="2" fill="currentColor"/><rect x="85" y="7" width="17" height="4" rx="2" fill="currentColor"/><rect x="7" y="26" width="17" height="4" rx="2" fill="currentColor"/><rect x="46" y="26" width="17" height="4" rx="2" fill="currentColor"/><rect x="85" y="26" width="17" height="4" rx="2" fill="currentColor"/></g></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiKc3a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiKc3b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="56" y="86" width="30" height="27" rx="6" fill="url(#oiKc3a)"/><circle cx="65" cy="95" r="3.4" fill="currentColor" fill-opacity="0.24"/><rect x="63" y="103" width="16" height="3.5" rx="1.75" fill="currentColor" fill-opacity="0.12"/><rect x="92" y="86" width="30" height="27" rx="6" fill="url(#oiKc3b)"/><circle cx="101" cy="95" r="3.4" fill="currentColor" fill-opacity="0.24"/><rect x="99" y="103" width="16" height="3.5" rx="1.75" fill="currentColor" fill-opacity="0.12"/><rect x="128" y="86" width="30" height="27" rx="6" fill="url(#oiKc3a)"/><circle cx="137" cy="95" r="3.4" fill="currentColor" fill-opacity="0.24"/><rect x="135" y="103" width="16" height="3.5" rx="1.75" fill="currentColor" fill-opacity="0.12"/><rect x="56" y="119" width="30" height="27" rx="6" fill="url(#oiKc3b)"/><circle cx="65" cy="128" r="3.4" fill="currentColor" fill-opacity="0.24"/><rect x="63" y="136" width="16" height="3.5" rx="1.75" fill="currentColor" fill-opacity="0.12"/><rect x="92" y="119" width="30" height="27" rx="6" fill="url(#oiKc3a)"/><circle cx="101" cy="128" r="3.4" fill="currentColor" fill-opacity="0.24"/><rect x="99" y="136" width="16" height="3.5" rx="1.75" fill="currentColor" fill-opacity="0.12"/><rect x="128" y="119" width="30" height="27" rx="6" fill="url(#oiKc3b)"/><circle cx="137" cy="128" r="3.4" fill="currentColor" fill-opacity="0.24"/><rect x="135" y="136" width="16" height="3.5" rx="1.75" fill="currentColor" fill-opacity="0.12"/></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-4-bg);--oi-acc:var(--oi-4-acc);">
           <p class="oi-card__title">A Predictable Conversation, Not a Guessing Game</p>
-          <span class="oi-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="3"/><circle cx="18" cy="5" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/></svg></span>
           <p class="oi-card__desc">Mapping the full interaction arc from greeting to advice to follow-up gives users a coach that guides them consistently, replacing what would otherwise be an improvised, unpredictable exchange.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><line x1="16" y1="20" x2="104" y2="20" stroke="currentColor" stroke-width="1.6" opacity=".45"/><circle cx="14" cy="20" r="9" fill="currentColor" opacity=".85"/><circle cx="60" cy="20" r="9" fill="currentColor" opacity=".85"/><circle cx="106" cy="20" r="9" fill="currentColor" opacity=".85"/><g stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".7"><path d="M33 16.5 l4 3.5 -4 3.5"/><path d="M79 16.5 l4 3.5 -4 3.5"/></g></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiKc4a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiKc4b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><path d="M74 88c0 14 18 10 18 22M118 118c0 12 12 8 12 16" stroke="currentColor" stroke-opacity="0.2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="3 4"/><rect x="50" y="64" width="50" height="22" rx="11" fill="url(#oiKc4b)"/><rect x="74" y="96" width="62" height="24" rx="12" fill="url(#oiKc4a)"/><rect x="104" y="130" width="52" height="22" rx="11" fill="url(#oiKc4b)"/><g fill="currentColor" fill-opacity="0.26"><circle cx="61" cy="75" r="3"/><circle cx="86" cy="108" r="3"/><circle cx="115" cy="141" r="3"/></g><g fill="currentColor" fill-opacity="0.12"><rect x="68" y="73" width="22" height="4" rx="2"/><rect x="94" y="106" width="32" height="4" rx="2"/><rect x="123" y="139" width="24" height="4" rx="2"/></g></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-5-bg);--oi-acc:var(--oi-5-acc);">
           <p class="oi-card__title">One Assistant, Equally Usable Everywhere</p>
-          <span class="oi-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M7 19h5"/><path d="M10 15v4"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg></span>
           <p class="oi-card__desc">Designing input methods and layout around each platform's constraints means the experience holds up whether someone opens it on mobile mid-session or at a desktop, removing the friction of a chatbot that only works well in one context.</p>
-          <span class="oi-card__art" aria-hidden="true"><svg viewBox="0 0 120 40" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" opacity=".8"><rect x="6" y="6" width="64" height="25" rx="3"/><rect x="88" y="3" width="26" height="34" rx="4"/></g><rect x="30" y="33" width="16" height="3" rx="1.5" fill="currentColor" opacity="0.5"/><g opacity=".7"><rect x="12" y="12" width="32" height="5" rx="2.5" fill="currentColor"/><rect x="12" y="21" width="21" height="5" rx="2.5" fill="currentColor"/><rect x="93" y="12" width="16" height="5" rx="2.5" fill="currentColor"/><rect x="93" y="21" width="11" height="5" rx="2.5" fill="currentColor"/></g></svg></span>
+          <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiKc5a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiKc5b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="48" y="74" width="86" height="56" rx="7" fill="url(#oiKc5a)"/><path d="M40 132h102l-6 10H46z" fill="url(#oiKc5b)"/><g fill="currentColor" fill-opacity="0.13"><rect x="57" y="84" width="34" height="5" rx="2.5"/><rect x="57" y="94" width="24" height="5" rx="2.5"/></g><path d="M100 100h22a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5h-14l-6 5v-5h-2a5 5 0 0 1-5-5v-8a5 5 0 0 1 5-5z" fill="currentColor" fill-opacity="0.16"/><rect x="122" y="96" width="34" height="58" rx="7" fill="url(#oiKc5b)"/><rect x="122" y="96" width="34" height="58" rx="7" stroke="currentColor" stroke-opacity="0.18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M131 132h12a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4h-8l-4 3z" fill="currentColor" fill-opacity="0.24"/></svg>
         </article>
       </div>
       <img class="reveal-fade" src="assets/images/project-kartclass/project-kartclass-placeholder-3.jpg" alt="Kartclass project image 3" style="margin-top:1.7rem;width:100%;aspect-ratio:1880/1000;max-height:500px;border-radius:14px;object-fit:cover;display:block;"/>
