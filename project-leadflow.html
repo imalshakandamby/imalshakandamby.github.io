@@ -1546,6 +1546,18 @@
       line-height: 1.7;
       margin: 0;
     }
+    /* LeadFlow: each responsibility has a short heading above its detail;
+       the negative margin pulls the pair closer than the card's flex gap */
+    .role-card__title {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 -0.5rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
 50%  { opacity: 1; }
       100% { top:  100%; opacity: 0.6; }
     }
@@ -1858,7 +1870,7 @@
     </section>
     <section class="case-section reveal" data-analytics-label="the-problem">
       <h2>The Problem</h2>
-      <p class="challenge-para">LeadFlow had to support two very different users at once: callers working through leads on their phones during live calls, and admins managing that lead data on the web. The constraints made it harder:</p>
+      <p class="challenge-para">LeadFlow had to support two very different users at once: callers working through leads on their phones during live calls, and admins managing that lead data on the web. Until then, everything ran through manually typed Excel sheets. The constraints made it harder:</p>
 
       <ul class="sticky-grid sticky-grid--three">
         <li class="sticky">
@@ -1886,6 +1898,11 @@
           <p class="sticky__lead">Two experiences at once.</p>
           <p class="sticky__body">The mobile caller app and the admin dashboard had to be delivered simultaneously, each with its own context and needs.</p>
         </li>
+        <li class="sticky">
+          <span class="sticky__idx" aria-hidden="true">06</span>
+          <p class="sticky__lead">A manual, spreadsheet-based process.</p>
+          <p class="sticky__body">Callers typed every lead detail into Excel by hand, and the co-founders and CEO received raw sheets they had to process before they could act on them.</p>
+        </li>
       </ul>
 
       <p class="challenge-para">The challenge was delivering two usable, consistent products quickly, without letting speed come at the cost of design quality.</p>
@@ -1898,29 +1915,35 @@
         <div class="role-row mobile-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
           <div class="role-card">
             <div class="role-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></div>
-            <p class="role-card__text">Interpreting and working closely with the requirement document</p>
+            <p class="role-card__title">Interpreting the requirement document</p>
+            <p class="role-card__text">Worked closely with the requirement document and discussed open questions with the AI team and project manager to finalize key decisions.</p>
           </div>
           <div class="role-card">
             <div class="role-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
-            <p class="role-card__text">Designing the mobile caller app (primary focus)</p>
+            <p class="role-card__title">Designing the mobile caller app (primary focus)</p>
+            <p class="role-card__text">Mapped callers’ journeys, pain points and frustrations with the Excel process, then designed a branded, mobile-first app around them.</p>
           </div>
           <div class="role-card">
             <div class="role-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-            <p class="role-card__text">Designing the admin dashboard</p>
+            <p class="role-card__title">Designing the admin dashboard</p>
+            <p class="role-card__text">Mapped admin journeys and the frustrations of working from raw spreadsheets, then designed a dashboard that presents data ready for decisions.</p>
           </div>
         </div>
         <div class="role-row mobile-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
           <div class="role-card">
             <div class="role-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 7v4M8.5 17.5l3.5-6.5 3.5 6.5"/></svg></div>
-            <p class="role-card__text">Structuring user flows and interactions</p>
+            <p class="role-card__title">Structuring flows and information architecture</p>
+            <p class="role-card__text">Defined user flows, interactions, information architecture and layouts for both products.</p>
           </div>
           <div class="role-card">
             <div class="role-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></div>
-            <p class="role-card__text">Using Figma Make (AI) to generate and refine UI screens</p>
+            <p class="role-card__title">Using Figma Make (AI) to generate and refine UI</p>
+            <p class="role-card__text">Generated and refined screens with AI while keeping both apps visually and structurally consistent.</p>
           </div>
           <div class="role-card">
             <div class="role-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"/><path d="M7 19h5"/><path d="M10 15v4"/><rect width="6" height="10" x="16" y="12" rx="2"/></svg></div>
-            <p class="role-card__text">Ensuring responsiveness and usability across devices</p>
+            <p class="role-card__title">Ensuring responsiveness and usability across devices</p>
+            <p class="role-card__text">Made sure the caller app works on mobile and web, and the dashboard holds up across screen sizes.</p>
           </div>
         </div>
       </div>
@@ -1936,7 +1959,8 @@
           </div>
           <ul class="ux-card__list">
             <li>Reviewed the requirement document and understood system workflows</li>
-            <li>Gained a quick understanding of lead management processes</li>
+            <li>Discussed requirements with seniors, co-founders and the team</li>
+            <li>Prepared time estimations in Jira to track progress</li>
           </ul>
         </div>
         <div class="ux-card">
@@ -1947,6 +1971,7 @@
           </div>
           <ul class="ux-card__list">
             <li>Identified key user roles (Caller, Admin)</li>
+            <li>Mapped each role’s journey and its pain points in the Excel-based process</li>
             <li>Defined main flows for lead handling and tracking</li>
           </ul>
         </div>
@@ -1959,6 +1984,7 @@
           <ul class="ux-card__list">
             <li>Planned mobile-first interactions for caller efficiency</li>
             <li>Structured dashboard layouts for data visibility</li>
+            <li>Decided on branding, typography, layout and information architecture</li>
           </ul>
         </div>
         <div class="ux-card">
@@ -1969,8 +1995,8 @@
           </div>
           <ul class="ux-card__list">
             <li>Designed UI using Figma Make (AI)</li>
+            <li>Replaced free-text entry with selectable options wherever possible</li>
             <li>Created responsive layouts for mobile and web</li>
-            <li>Focused on clarity, speed, and usability</li>
           </ul>
         </div>
         <div class="ux-card">
@@ -1981,7 +2007,8 @@
           </div>
           <ul class="ux-card__list">
             <li>Generated interactive flows using Figma Make</li>
-            <li>Shared live Figma Make links for quick validation</li>
+            <li>Shared live prototype links for quick validation</li>
+            <li>Exported and shared editable code so developers could start front-end work</li>
           </ul>
         </div>
         <div class="ux-card">
@@ -2001,24 +2028,31 @@
 
     <section class="case-section reveal" data-analytics-label="the-solution">
       <h2>The Solution</h2>
-      <p class="challenge-para">The final solution delivered two key products, designed to work together:</p>
+      <p class="challenge-para">The final solution delivered two connected products, plus a working code base for development:</p>
       <ul class="sol-rows">
         <li class="sol-row">
           <div>
             <p class="sol-row__label">Caller App (Mobile-First)</p>
             <p class="sol-row__lead">Built for speed during live calls</p>
           </div>
-          <p class="sol-row__detail">A streamlined interface for handling calls and managing leads, with quick access to lead details and actions. Every screen was designed for speed and ease of use, so callers can log and update a lead without breaking the flow of a live conversation.</p>
+          <p class="sol-row__detail">A streamlined interface for handling calls and managing leads, with quick access to lead details and actions. Predefined, selectable fields replace manual typing, so callers can log and update a lead without breaking the flow of a live conversation. The app works on both mobile and web, and callers submit their day’s leads directly to admins.</p>
         </li>
         <li class="sol-row">
           <div>
             <p class="sol-row__label">Admin Dashboard</p>
-            <p class="sol-row__lead">One place to manage and monitor leads</p>
+            <p class="sol-row__lead">Decisions at a glance, not raw data</p>
           </div>
-          <p class="sol-row__detail">A centralized platform for managing and monitoring leads, with structured data views and workflow management. Responsive layouts keep the dashboard usable across multiple screen sizes.</p>
+          <p class="sol-row__detail">A centralized platform where submitted leads arrive already structured. Leadership, including the co-founders and CEO, can see current status and progress at a glance and make decisions without processing spreadsheets first. Responsive layouts keep the dashboard usable across screen sizes.</p>
+        </li>
+        <li class="sol-row">
+          <div>
+            <p class="sol-row__label">Developer Handoff</p>
+            <p class="sol-row__lead">Working code, not just screens</p>
+          </div>
+          <p class="sol-row__detail">Figma Make’s code export meant developers received the working prototype’s code as a starting point, which they reviewed and refined into installable applications instead of rebuilding every screen from scratch.</p>
         </li>
       </ul>
-      <p class="challenge-para" style="margin-top:1.25rem;">The use of Figma Make (AI) enabled rapid delivery while maintaining design quality.</p>
+      <p class="challenge-para" style="margin-top:1.25rem;">Using Figma Make (AI) made rapid delivery possible while keeping design quality and consistency across both products.</p>
     </section>
     <img class="reveal-fade" src="assets/images/project-leadflow/project-leadflow-placeholder-3.jpg" alt="LeadFlow project image 3" style="margin-bottom:1.7rem;width:100%;aspect-ratio:1880/1000;max-height:500px;border-radius:14px;object-fit:cover;display:block;"/>
     <img class="reveal-fade" src="assets/images/project-leadflow/project-leadflow-placeholder-4.jpg" alt="LeadFlow project image 4" style="margin-bottom:1.7rem;width:100%;aspect-ratio:1880/1000;max-height:500px;border-radius:14px;object-fit:cover;display:block;"/>
@@ -2089,7 +2123,7 @@
       <div class="oi-grid oi-grid--uniform">
         <article class="oi-card" style="--oi-bg:var(--oi-2-bg);--oi-acc:var(--oi-2-acc);">
           <p class="oi-card__title">Caller Efficiency Increased by 60%</p>
-          <p class="oi-card__desc">Cold callers previously gathered and tracked lead data manually across Excel sheets. Moving that work into a single mobile-first app removed the manual overhead, and comparing time spent per lead before and after launch showed a 60% increase in caller efficiency.</p>
+          <p class="oi-card__desc">Callers previously typed every lead detail into Excel by hand. Moving that work into a mobile-first app with selectable fields removed the manual overhead, and comparing time spent per lead before and after launch showed a 60% increase in caller efficiency.</p>
           <svg class="oi-card__art" viewBox="0 0 160 160" aria-hidden="true" focusable="false"><defs><linearGradient id="oiLf1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="oiLf1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient><linearGradient id="oiLf1n" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.95"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.45"/></linearGradient></defs><rect x="50" y="56" width="48" height="42" rx="5" fill="url(#oiLf1b)"/><rect x="50" y="56" width="48" height="42" rx="5" stroke="currentColor" stroke-opacity="0.16" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M66 56v42M82 56v42M50 66h48M50 76h48M50 86h48" stroke="currentColor" stroke-opacity="0.14" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M103 77h12M111 72l5 5-5 5" stroke="currentColor" stroke-opacity="0.3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="120" y="52" width="32" height="52" rx="7" fill="url(#oiLf1a)"/><g fill="currentColor" fill-opacity="0.24"><rect x="126" y="61" width="20" height="8" rx="2.5"/><rect x="126" y="74" width="20" height="4" rx="2"/><rect x="126" y="83" width="14" height="4" rx="2"/></g><text x="151" y="147" text-anchor="end" font-family="Syne, sans-serif" font-weight="800" font-size="44" letter-spacing="-1" fill="url(#oiLf1n)">60%</text></svg>
         </article>
         <article class="oi-card" style="--oi-bg:var(--oi-3-bg);--oi-acc:var(--oi-3-acc);">
@@ -2130,7 +2164,7 @@
         <li class="learn-card">
           <span class="learn-card__mark" aria-hidden="true"></span>
           <p class="learn-card__title">Hands-on experience with Figma Make (AI)</p>
-          <p class="learn-card__text">Used AI to generate and refine real product screens, and learned where it speeds the work up and where design judgement still has to lead.</p>
+          <p class="learn-card__text">Used AI to generate and refine real product screens, and learned where it speeds the work up and where design judgment still has to lead.</p>
         </li>
         <li class="learn-card">
           <span class="learn-card__mark" aria-hidden="true"></span>
