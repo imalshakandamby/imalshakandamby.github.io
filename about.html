@@ -2012,6 +2012,19 @@
       white-space: nowrap;
       letter-spacing: 0.02em;
     }
+    /* company pills carry each employer's colour: green for Swivel Tech,
+       blue for Akvasoft */
+    .testi-card__org--swivel   { --org-rgb: var(--green-rgb); }
+    .testi-card__org--akvasoft { --org-rgb: 96,165,250; }
+    :root[data-theme="light"] .testi-card__org--akvasoft { --org-rgb: 24,82,165; }
+    .testi-card__org--swivel,
+    .testi-card__org--akvasoft,
+    :root[data-theme="light"] .testi-card__org--swivel,
+    :root[data-theme="light"] .testi-card__org--akvasoft {
+      color: rgb(var(--org-rgb));
+      background: rgba(var(--org-rgb),0.1);
+      border-color: rgba(var(--org-rgb),0.34);
+    }
     .testi-card__quote {
       font-size: 0.85rem;
       line-height: 1.75;
@@ -2028,18 +2041,15 @@
       padding-top: 1rem;
       border-top: 1px solid rgba(var(--ink-rgb),0.12);
     }
+    /* illustrated portrait; the backdrop follows the theme via --oi-N-bg */
     .testi-card__avatar {
-      width: 34px; height: 34px;
-      border-radius: 10px;
+      width: 42px; height: 42px;
+      border-radius: 12px;
       flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-size: 0.72rem;
-      font-weight: 700;
-      color: var(--violet-lt);
-      background: rgba(var(--violet-rgb),0.14);
+      overflow: hidden;
       border: 1px solid rgba(var(--violet-rgb),0.28);
     }
+    .testi-card__avatar svg { display: block; width: 100%; height: 100%; }
     .testi-card__id { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
     .testi-card__name {
       font-family: var(--font-display);
@@ -2980,11 +2990,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She demonstrated a strong sense of ownership over her work, was dependable in execution, receptive to feedback, and showed clear progression in both design thinking and delivery maturity. Her growth mindset, combined with her consistency and reliability, makes her a valuable asset for teams building strong UI/UX capabilities.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">RR</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-1-bg)"/><path d="M18 31c0-12.5 6-20 14-20s14 7.5 14 20v16c0 1.4-1.2 2.5-2.7 2.5H20.7C19.2 49.5 18 48.4 18 47z" fill="#231a1e"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#8b6fd6"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#B07450"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#B07450"/><circle cx="21" cy="30" r="3" fill="#B07450"/><circle cx="43" cy="30" r="3" fill="#B07450"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#C98B62"/><path d="M20.4 29c.4-9.6 5.4-15.4 11.8-15.4 6.9 0 11.6 5.2 11.9 13.6-5.3-1-11-4.2-14-8.8-2 4.8-5.4 8.4-9.7 10.6z" fill="#231a1e"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#231a1e" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="21" cy="34.6" r="1.3" fill="#f2c14e"/><circle cx="43" cy="34.6" r="1.3" fill="#f2c14e"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Romani Rupasinghe</span>
                   <span class="testi-card__role">VP of Engineering</span>
@@ -2994,11 +3004,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She has a keen eye for detail and a solid understanding of user-centered design principles. The way she took ownership of her tasks and delivered quality work played an important role in the team's success.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">SK</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-3-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#4f6bd8"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#9F6640"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#9F6640"/><circle cx="21" cy="30" r="3" fill="#9F6640"/><circle cx="43" cy="30" r="3" fill="#9F6640"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#B97A50"/><path d="M20.5 27.5c-.5-9.3 4.5-15.3 11.5-15.3s12 5.6 11.5 15.3c-1-3-2.5-5.1-4-6.1-4 1.6-10 1.6-15 0-1.6 1-3 3.1-4 6.1z" fill="#1d1719"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#1d1719" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g stroke="#2a2230" stroke-width="1.2" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="28" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><circle cx="36" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><path d="M31.6 30h.8M24.4 29.6l-3-.8M39.6 29.6l3-.8"/></g></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Suranga Kumarage</span>
                   <span class="testi-card__role">Tech Lead</span>
@@ -3008,11 +3018,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She is able to translate complex requirements into intuitive and visually appealing interfaces, ensuring a seamless user experience across products. She actively seeks feedback, adapts quickly, and brings fresh ideas to the table.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">VG</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-4-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#5b9bc9"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#8F5937"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#8F5937"/><circle cx="21" cy="30" r="3" fill="#8F5937"/><circle cx="43" cy="30" r="3" fill="#8F5937"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#A86B45"/><path d="M21.3 29.5c0 9.4 4.6 15.5 10.7 15.5s10.7-6.1 10.7-15.5c-1 4.2-3 6.4-5 6.9-1.5-1.5-3.6-2-5.7-2s-4.2.5-5.7 2c-2-.5-4-2.7-5-6.9z" fill="#1a1416" fill-opacity="1"/><path d="M21 26c0-8.4 4.8-13.4 11-13.4S43 17.6 43 26c-2-2.6-4-3.8-6-4-3 .6-7 .6-10 0-2 .2-4 1.4-6 4z" fill="#1a1416"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#1a1416" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29.4 36.6q2.6 1.6 5.2 0" stroke="#A86B45" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Varuna Galabda</span>
                   <span class="testi-card__role">Engineering Manager</span>
@@ -3022,11 +3032,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She approaches design challenges with curiosity and rigor - she takes time to understand user needs, iterates thoughtfully, and delivers work that is both visually polished and well-reasoned. Over the time we worked together, I watched her confidence and capability grow considerably.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">TJ</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-5-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#a879d6"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#A86C45"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#A86C45"/><circle cx="21" cy="30" r="3" fill="#A86C45"/><circle cx="43" cy="30" r="3" fill="#A86C45"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#C28055"/><path d="M21 27c0-8 4.6-13 11-13s11 5 11 13c-1.6-2.8-3.6-4.4-5.4-4.8-3.4.8-7.8.8-11.2 0-1.8.4-3.8 2-5.4 4.8z" fill="#241b1a"/><g fill="#241b1a"><circle cx="22.5" cy="21" r="4"/><circle cx="26.5" cy="16.5" r="4.2"/><circle cx="32" cy="14.6" r="4.4"/><circle cx="37.5" cy="16.5" r="4.2"/><circle cx="41.5" cy="21" r="4"/></g><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#241b1a" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Thilina Jayawardana</span>
                   <span class="testi-card__role">Senior Designer / Mentor</span>
@@ -3036,11 +3046,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She effectively incorporates AI-driven flows into her UI/UX work, creating smarter and more efficient user experiences. She collaborates well with cross-functional teams and communicates her ideas clearly.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">IL</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-2-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#7385e8"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#BA8460"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#BA8460"/><circle cx="21" cy="30" r="3" fill="#BA8460"/><circle cx="43" cy="30" r="3" fill="#BA8460"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#D49C72"/><path d="M20.5 28c-1-10 4.5-16 12-16 6.2 0 11 4.2 11.5 12.2l-1.5 3.8c-1-3-2.6-5.1-4.2-6.5-4.6 1.4-11.4 1-13.8-1.5-2 2-3.5 4.6-4 8z" fill="#2b211d"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#2b211d" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M28.2 34.6c1.5-1 2.7-1 3.8 0 1.1-1 2.3-1 3.8 0-1 1.2-2.5 1.6-3.8.9-1.3.7-2.8.3-3.8-.9z" fill="#2b211d"/><path d="M30 37.6q2 1.2 4 0" stroke="#7a3b34" stroke-width="1.2" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Ishara Lakshan</span>
                   <span class="testi-card__role">Design Team Lead</span>
@@ -3050,11 +3060,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She communicates ideas clearly, takes feedback constructively, and is always willing to go the extra mile to improve the overall user experience. Reliable, easy to work with, and maintains a positive approach even under pressure.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">LG</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-6-bg)"/><circle cx="32" cy="12.5" r="6.2" fill="#2a1d1b"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#6c8ef5"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#C08E68"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#C08E68"/><circle cx="21" cy="30" r="3" fill="#C08E68"/><circle cx="43" cy="30" r="3" fill="#C08E68"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#D9A67E"/><path d="M20.4 29.5c0-10.4 5-16.5 11.6-16.5s11.6 6.1 11.6 16.5c-1.4-4.6-3.9-7.3-6-8.3-3.1 1.6-8.1 1.8-11.2.2-2.2 1.2-4.6 3.9-6 8.1z" fill="#2a1d1b"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#2a1d1b" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="21" cy="34.6" r="1.3" fill="#f2c14e"/><circle cx="43" cy="34.6" r="1.3" fill="#f2c14e"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Lihini Galagedara</span>
                   <span class="testi-card__role">Project Collaborator</span>
@@ -3064,11 +3074,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Akvasoft</span>
+                <span class="testi-card__org testi-card__org--akvasoft">Akvasoft</span>
               </div>
               <p class="testi-card__quote">Her ability to combine creativity with functionality resulted in impressive and engaging designs that pleased our clients' expectations. Her professionalism and willingness to cooperate made the process seamless and enjoyable.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">SJ</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-3-bg)"/><path d="M41.5 19c6.5 2 8.8 10.5 6.6 20.6-1.1 5-4 7.4-6.4 6.4 2.3-6.2 2.4-14.4.1-20.8z" fill="#1f1719"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#9a7be0"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#965C3A"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#965C3A"/><circle cx="21" cy="30" r="3" fill="#965C3A"/><circle cx="43" cy="30" r="3" fill="#965C3A"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#B07048"/><path d="M20.4 29.5c0-10.4 5-16.5 11.6-16.5s11.6 6.1 11.6 16.5c-2-5.2-6.2-8.4-12-9.6-3.6 1.6-8 4.6-11.2 9.6z" fill="#1f1719"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#1f1719" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g stroke="#2a2230" stroke-width="1.2" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="28" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><circle cx="36" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><path d="M31.6 30h.8M24.4 29.6l-3-.8M39.6 29.6l3-.8"/></g></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Sajeewa Jayarathna</span>
                   <span class="testi-card__role">Associate Tech Lead</span>
@@ -3078,11 +3088,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Akvasoft</span>
+                <span class="testi-card__org testi-card__org--akvasoft">Akvasoft</span>
               </div>
               <p class="testi-card__quote">She demonstrated a remarkable ability to grasp new concepts swiftly and seamlessly incorporate industry standards into her work.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">EI</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-1-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#4a5fc4"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#AF7A52"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#AF7A52"/><circle cx="21" cy="30" r="3" fill="#AF7A52"/><circle cx="43" cy="30" r="3" fill="#AF7A52"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#C99066"/><path d="M21.3 29.5c0 9.4 4.6 15.5 10.7 15.5s10.7-6.1 10.7-15.5c-1 4.2-3 6.4-5 6.9-1.5-1.5-3.6-2-5.7-2s-4.2.5-5.7 2c-2-.5-4-2.7-5-6.9z" fill="#201819" fill-opacity="0.38"/><path d="M21 26c0-8.4 4.8-13.4 11-13.4S43 17.6 43 26c-2-2.6-4-3.8-6-4-3 .6-7 .6-10 0-2 .2-4 1.4-6 4z" fill="#201819"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#201819" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Eminda Ishan</span>
                   <span class="testi-card__role">CTO</span>
@@ -3092,11 +3102,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Akvasoft</span>
+                <span class="testi-card__org testi-card__org--akvasoft">Akvasoft</span>
               </div>
               <p class="testi-card__quote">Her passion for UI/UX and the ability to think fast and conceptualize ideas with a keen eye for designing and implementing processes from initial sketch to prototype makes her a valuable asset to any team.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">HD</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-5-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#5aa3c8"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#8F5D3B"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#8F5D3B"/><circle cx="21" cy="30" r="3" fill="#8F5D3B"/><circle cx="43" cy="30" r="3" fill="#8F5D3B"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#A9714B"/><path d="M20.5 27.5c-.5-8 3-13.6 9-15.1 2-2.6 6-3.6 9.5-2.1 2.6 1.1 3.6 3.1 3 5.1 2 2.6 2.5 6.6 2 12.1-1-3-3-5.6-5-6.6-4.5 1.5-10 1.3-14 0-2 1-3.5 3.6-4.5 6.6z" fill="#261c1c"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#261c1c" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Hashan Dharmapriya</span>
                   <span class="testi-card__role">Software Engineer</span>
@@ -3108,11 +3118,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She demonstrated a strong sense of ownership over her work, was dependable in execution, receptive to feedback, and showed clear progression in both design thinking and delivery maturity. Her growth mindset, combined with her consistency and reliability, makes her a valuable asset for teams building strong UI/UX capabilities.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">RR</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-1-bg)"/><path d="M18 31c0-12.5 6-20 14-20s14 7.5 14 20v16c0 1.4-1.2 2.5-2.7 2.5H20.7C19.2 49.5 18 48.4 18 47z" fill="#231a1e"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#8b6fd6"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#B07450"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#B07450"/><circle cx="21" cy="30" r="3" fill="#B07450"/><circle cx="43" cy="30" r="3" fill="#B07450"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#C98B62"/><path d="M20.4 29c.4-9.6 5.4-15.4 11.8-15.4 6.9 0 11.6 5.2 11.9 13.6-5.3-1-11-4.2-14-8.8-2 4.8-5.4 8.4-9.7 10.6z" fill="#231a1e"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#231a1e" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="21" cy="34.6" r="1.3" fill="#f2c14e"/><circle cx="43" cy="34.6" r="1.3" fill="#f2c14e"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Romani Rupasinghe</span>
                   <span class="testi-card__role">VP of Engineering</span>
@@ -3122,11 +3132,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She has a keen eye for detail and a solid understanding of user-centered design principles. The way she took ownership of her tasks and delivered quality work played an important role in the team's success.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">SK</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-3-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#4f6bd8"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#9F6640"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#9F6640"/><circle cx="21" cy="30" r="3" fill="#9F6640"/><circle cx="43" cy="30" r="3" fill="#9F6640"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#B97A50"/><path d="M20.5 27.5c-.5-9.3 4.5-15.3 11.5-15.3s12 5.6 11.5 15.3c-1-3-2.5-5.1-4-6.1-4 1.6-10 1.6-15 0-1.6 1-3 3.1-4 6.1z" fill="#1d1719"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#1d1719" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g stroke="#2a2230" stroke-width="1.2" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="28" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><circle cx="36" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><path d="M31.6 30h.8M24.4 29.6l-3-.8M39.6 29.6l3-.8"/></g></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Suranga Kumarage</span>
                   <span class="testi-card__role">Tech Lead</span>
@@ -3136,11 +3146,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She is able to translate complex requirements into intuitive and visually appealing interfaces, ensuring a seamless user experience across products. She actively seeks feedback, adapts quickly, and brings fresh ideas to the table.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">VG</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-4-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#5b9bc9"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#8F5937"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#8F5937"/><circle cx="21" cy="30" r="3" fill="#8F5937"/><circle cx="43" cy="30" r="3" fill="#8F5937"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#A86B45"/><path d="M21.3 29.5c0 9.4 4.6 15.5 10.7 15.5s10.7-6.1 10.7-15.5c-1 4.2-3 6.4-5 6.9-1.5-1.5-3.6-2-5.7-2s-4.2.5-5.7 2c-2-.5-4-2.7-5-6.9z" fill="#1a1416" fill-opacity="1"/><path d="M21 26c0-8.4 4.8-13.4 11-13.4S43 17.6 43 26c-2-2.6-4-3.8-6-4-3 .6-7 .6-10 0-2 .2-4 1.4-6 4z" fill="#1a1416"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#1a1416" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29.4 36.6q2.6 1.6 5.2 0" stroke="#A86B45" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Varuna Galabda</span>
                   <span class="testi-card__role">Engineering Manager</span>
@@ -3150,11 +3160,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She approaches design challenges with curiosity and rigor - she takes time to understand user needs, iterates thoughtfully, and delivers work that is both visually polished and well-reasoned. Over the time we worked together, I watched her confidence and capability grow considerably.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">TJ</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-5-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#a879d6"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#A86C45"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#A86C45"/><circle cx="21" cy="30" r="3" fill="#A86C45"/><circle cx="43" cy="30" r="3" fill="#A86C45"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#C28055"/><path d="M21 27c0-8 4.6-13 11-13s11 5 11 13c-1.6-2.8-3.6-4.4-5.4-4.8-3.4.8-7.8.8-11.2 0-1.8.4-3.8 2-5.4 4.8z" fill="#241b1a"/><g fill="#241b1a"><circle cx="22.5" cy="21" r="4"/><circle cx="26.5" cy="16.5" r="4.2"/><circle cx="32" cy="14.6" r="4.4"/><circle cx="37.5" cy="16.5" r="4.2"/><circle cx="41.5" cy="21" r="4"/></g><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#241b1a" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Thilina Jayawardana</span>
                   <span class="testi-card__role">Senior Designer / Mentor</span>
@@ -3164,11 +3174,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She effectively incorporates AI-driven flows into her UI/UX work, creating smarter and more efficient user experiences. She collaborates well with cross-functional teams and communicates her ideas clearly.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">IL</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-2-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#7385e8"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#BA8460"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#BA8460"/><circle cx="21" cy="30" r="3" fill="#BA8460"/><circle cx="43" cy="30" r="3" fill="#BA8460"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#D49C72"/><path d="M20.5 28c-1-10 4.5-16 12-16 6.2 0 11 4.2 11.5 12.2l-1.5 3.8c-1-3-2.6-5.1-4.2-6.5-4.6 1.4-11.4 1-13.8-1.5-2 2-3.5 4.6-4 8z" fill="#2b211d"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#2b211d" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M28.2 34.6c1.5-1 2.7-1 3.8 0 1.1-1 2.3-1 3.8 0-1 1.2-2.5 1.6-3.8.9-1.3.7-2.8.3-3.8-.9z" fill="#2b211d"/><path d="M30 37.6q2 1.2 4 0" stroke="#7a3b34" stroke-width="1.2" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Ishara Lakshan</span>
                   <span class="testi-card__role">Design Team Lead</span>
@@ -3178,11 +3188,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Swivel Tech</span>
+                <span class="testi-card__org testi-card__org--swivel">Swivel Tech</span>
               </div>
               <p class="testi-card__quote">She communicates ideas clearly, takes feedback constructively, and is always willing to go the extra mile to improve the overall user experience. Reliable, easy to work with, and maintains a positive approach even under pressure.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">LG</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-6-bg)"/><circle cx="32" cy="12.5" r="6.2" fill="#2a1d1b"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#6c8ef5"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#C08E68"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#C08E68"/><circle cx="21" cy="30" r="3" fill="#C08E68"/><circle cx="43" cy="30" r="3" fill="#C08E68"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#D9A67E"/><path d="M20.4 29.5c0-10.4 5-16.5 11.6-16.5s11.6 6.1 11.6 16.5c-1.4-4.6-3.9-7.3-6-8.3-3.1 1.6-8.1 1.8-11.2.2-2.2 1.2-4.6 3.9-6 8.1z" fill="#2a1d1b"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#2a1d1b" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="21" cy="34.6" r="1.3" fill="#f2c14e"/><circle cx="43" cy="34.6" r="1.3" fill="#f2c14e"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Lihini Galagedara</span>
                   <span class="testi-card__role">Project Collaborator</span>
@@ -3192,11 +3202,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Akvasoft</span>
+                <span class="testi-card__org testi-card__org--akvasoft">Akvasoft</span>
               </div>
               <p class="testi-card__quote">Her ability to combine creativity with functionality resulted in impressive and engaging designs that pleased our clients' expectations. Her professionalism and willingness to cooperate made the process seamless and enjoyable.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">SJ</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-3-bg)"/><path d="M41.5 19c6.5 2 8.8 10.5 6.6 20.6-1.1 5-4 7.4-6.4 6.4 2.3-6.2 2.4-14.4.1-20.8z" fill="#1f1719"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#9a7be0"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#965C3A"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#965C3A"/><circle cx="21" cy="30" r="3" fill="#965C3A"/><circle cx="43" cy="30" r="3" fill="#965C3A"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#B07048"/><path d="M20.4 29.5c0-10.4 5-16.5 11.6-16.5s11.6 6.1 11.6 16.5c-2-5.2-6.2-8.4-12-9.6-3.6 1.6-8 4.6-11.2 9.6z" fill="#1f1719"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#1f1719" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g stroke="#2a2230" stroke-width="1.2" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"><circle cx="28" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><circle cx="36" cy="30.2" r="3.6" fill="#ffffff" fill-opacity="0.12"/><path d="M31.6 30h.8M24.4 29.6l-3-.8M39.6 29.6l3-.8"/></g></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Sajeewa Jayarathna</span>
                   <span class="testi-card__role">Associate Tech Lead</span>
@@ -3206,11 +3216,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Akvasoft</span>
+                <span class="testi-card__org testi-card__org--akvasoft">Akvasoft</span>
               </div>
               <p class="testi-card__quote">She demonstrated a remarkable ability to grasp new concepts swiftly and seamlessly incorporate industry standards into her work.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">EI</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-1-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#4a5fc4"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#AF7A52"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#AF7A52"/><circle cx="21" cy="30" r="3" fill="#AF7A52"/><circle cx="43" cy="30" r="3" fill="#AF7A52"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#C99066"/><path d="M21.3 29.5c0 9.4 4.6 15.5 10.7 15.5s10.7-6.1 10.7-15.5c-1 4.2-3 6.4-5 6.9-1.5-1.5-3.6-2-5.7-2s-4.2.5-5.7 2c-2-.5-4-2.7-5-6.9z" fill="#201819" fill-opacity="0.38"/><path d="M21 26c0-8.4 4.8-13.4 11-13.4S43 17.6 43 26c-2-2.6-4-3.8-6-4-3 .6-7 .6-10 0-2 .2-4 1.4-6 4z" fill="#201819"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#201819" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Eminda Ishan</span>
                   <span class="testi-card__role">CTO</span>
@@ -3220,11 +3230,11 @@
             <article class="testi-card">
               <div class="testi-card__top">
                 <span class="testi-card__mark" aria-hidden="true">&ldquo;</span>
-                <span class="testi-card__org">Akvasoft</span>
+                <span class="testi-card__org testi-card__org--akvasoft">Akvasoft</span>
               </div>
               <p class="testi-card__quote">Her passion for UI/UX and the ability to think fast and conceptualize ideas with a keen eye for designing and implementing processes from initial sketch to prototype makes her a valuable asset to any team.</p>
               <div class="testi-card__by">
-                <span class="testi-card__avatar" aria-hidden="true">HD</span>
+                <span class="testi-card__avatar" aria-hidden="true"><svg viewBox="6 5 52 52" focusable="false"><rect width="64" height="64" style="fill:var(--oi-5-bg)"/><path d="M8 64c1.5-11 10.5-16.5 24-16.5S54.5 53 56 64z" fill="#5aa3c8"/><path d="M26.5 47.9 32 55l5.5-7.1c-1.7-.6-3.6-.9-5.5-.9s-3.8.3-5.5.9z" fill="#8F5D3B"/><path d="M27 37h10v10.5c0 1.6-2.2 3-5 3s-5-1.4-5-3z" fill="#8F5D3B"/><circle cx="21" cy="30" r="3" fill="#8F5D3B"/><circle cx="43" cy="30" r="3" fill="#8F5D3B"/><ellipse cx="32" cy="28.5" rx="11" ry="12.5" fill="#A9714B"/><path d="M20.5 27.5c-.5-8 3-13.6 9-15.1 2-2.6 6-3.6 9.5-2.1 2.6 1.1 3.6 3.1 3 5.1 2 2.6 2.5 6.6 2 12.1-1-3-3-5.6-5-6.6-4.5 1.5-10 1.3-14 0-2 1-3.5 3.6-4.5 6.6z" fill="#261c1c"/><path d="M25.6 26.4q2.5-1.5 5 0M33.4 26.4q2.5-1.5 5 0" stroke="#261c1c" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="28" cy="30.2" r="1.45" fill="#231b26"/><circle cx="36" cy="30.2" r="1.45" fill="#231b26"/><circle cx="25.6" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><circle cx="38.4" cy="34" r="2" fill="#e0707a" fill-opacity="0.16"/><path d="M29 35.6q3 2.4 6 0" stroke="#7a3b34" stroke-width="1.3" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 <span class="testi-card__id">
                   <span class="testi-card__name">Hashan Dharmapriya</span>
                   <span class="testi-card__role">Software Engineer</span>
