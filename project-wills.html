@@ -68,12 +68,6 @@
       --oi-5-bg:#2c1a37; --oi-5-acc:#cba2e6;
       --oi-6-bg:#1a2140; --oi-6-acc:#9db6f7;
 
-      /* sticky-note paper tints (5 cycling pairs) */
-      --note-1a:#2b2553; --note-1b:#1d1938;
-      --note-2a:#1f2b54; --note-2b:#161f3b;
-      --note-3a:#34244f; --note-3b:#241936;
-      --note-4a:#1c3047; --note-4b:#142232;
-      --note-5a:#3a2447; --note-5b:#281834;
 
       /* project tile grounds (index) */
       --proj-1:#041A0C; --proj-2:#130A2E; --proj-3:#141F04; --proj-4:#2A0717;
@@ -157,11 +151,6 @@
       --oi-5-bg:#ECE0F1; --oi-5-acc:#733BA5;
       --oi-6-bg:#E0E4F6; --oi-6-acc:#374BAE;
 
-      --note-1a:#E3DDF2; --note-1b:#D5CEE8;
-      --note-2a:#DDE3F3; --note-2b:#CED6EB;
-      --note-3a:#E9DFF0; --note-3b:#DBCFE7;
-      --note-4a:#DAE4EF; --note-4b:#CBD9E6;
-      --note-5a:#EADFF0; --note-5b:#DCCFE3;
 
       --proj-1:#D6E5DC; --proj-2:#DCD8EE; --proj-3:#DFE7D3; --proj-4:#EDD9E0;
 
@@ -211,7 +200,6 @@
 
     :root[data-theme="light"] .footer-brand__tagline { color: var(--green); }
     :root[data-theme="light"] .card-tag    { color: rgba(var(--ink-rgb), 0.78); }
-    :root[data-theme="light"] .sticky__idx { color: rgba(var(--ink-rgb), 0.72); }
     :root[data-theme="light"] .testi-card__mark { color: rgba(var(--violet-rgb), 0.85); }
 
     /* Highlights inside the case intro. Three strengths of the primary,
@@ -1101,10 +1089,14 @@
     }
 
     /* ─── Problem sticky notes ───
-       Dark-mode take on a physical sticky note: tinted paper, a slight
-       tilt, a lifted drop shadow and a folded bottom-right corner. Tints
-       stay inside the site's violet/indigo family rather than the bright
-       pastels of a real note, so it reads as this theme, not Post-it. */
+       Paper notes stuck to the wall, built in layers for realism: a tinted
+       sheet, a flatter adhesive band along the top, a
+       lower edge that catches the light as it curls away, and two skewed
+       shadows where the lifted corners leave the wall. Tints come from the
+       dark-theme Outcome & Impact palette and stay dark in both themes,
+       with light ink, so the handwriting keeps strong contrast everywhere.
+       Each note carries a small tonal illustration in its corner, built
+       the same way as those cards' artwork. */
     /* two classes so it outranks `.case-section ul` (0,1,1), which would
        otherwise indent the whole grid by 1.1rem.
        Flex rather than grid: with 5 notes in a 3-up layout, grid leaves the
@@ -1114,10 +1106,10 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1.25rem;
+      gap: 1.6rem 1.25rem;                 /* extra row gap for the corner shadows */
       list-style: none;
       padding-left: 0;
-      margin: 1.5rem 0 1.6rem;
+      margin: 1.5rem 0 1.9rem;
     }
     /* basis = (100% - total gaps) / columns, gap being 1.25rem */
     .case-section .sticky-grid .sticky        { flex: 0 1 calc(25% - 0.9375rem); }
@@ -1125,74 +1117,114 @@
 
     .sticky-grid .sticky {
       --tilt: 0deg;
+      --sn-acc: #bda6f5;
+      --sn-bg: #281b3f;
       position: relative;
+      isolation: isolate;                  /* keeps the paper and shadows inside the note */
       display: flex;
       flex-direction: column;
       gap: 0.45rem;
-      padding: 1.15rem 1.1rem 1.35rem;
-      border-radius: 2px 2px 3px 3px;      /* paper, not a rounded card */
-      background: linear-gradient(158deg, var(--note-a), var(--note-b));
-      box-shadow: 0 12px 22px rgba(var(--shadow-rgb),calc(0.42*var(--shadow-a))), 0 2px 6px rgba(var(--shadow-rgb),calc(0.35*var(--shadow-a)));
+      padding: 1.45rem 1.15rem 5.85rem;     /* bottom room for the illustration */
       transform: rotate(var(--tilt));
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-                  box-shadow 0.32s ease;
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    /* straightens and lifts, like picking the note off the wall */
-    .sticky-grid .sticky:hover {
-      transform: rotate(0deg) translateY(-6px);
-      box-shadow: 0 20px 34px rgba(var(--shadow-rgb),calc(0.5*var(--shadow-a))), 0 4px 12px rgba(var(--violet-rgb),0.16);
-    }
-    /* adhesive sheen across the top edge */
-    .sticky-grid .sticky::before {
-      content: '';
+    /* the sheet itself */
+    .sticky-grid .sticky__paper {
       position: absolute;
-      top: 0; left: 8%; right: 8%;
-      height: 12px;
-      background: linear-gradient(180deg, rgba(var(--ink-rgb),0.07), transparent);
-      pointer-events: none;
+      inset: 0;
+      z-index: -1;
+      border-radius: 2px 2px 5px 5px / 2px 2px 3px 3px;
+      background:
+        /* adhesive band: the glued strip sits flat and a touch darker */
+        linear-gradient(180deg, rgba(0,0,0,0.14) 0, rgba(0,0,0,0.06) 1.55rem, transparent 1.7rem),
+        /* curl: the free edge rolls away from the wall into shade */
+        linear-gradient(180deg, transparent 82%, rgba(0,0,0,0.24) 100%),
+        /* corner glow, as on the Outcome & Impact cards */
+        radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--sn-acc) 20%, transparent) 0, transparent 58%),
+        /* soft light falling on the top-left */
+        radial-gradient(120% 80% at 0% 0%, rgba(255,255,255,0.05), transparent 60%),
+        /* paper: the accent mixed into its own saturated card colour */
+        linear-gradient(158deg,
+          color-mix(in srgb, var(--sn-acc) 20%, var(--sn-bg)) 0%,
+          color-mix(in srgb, var(--sn-acc) 9%, var(--sn-bg)) 100%);
+      box-shadow: 0 1px 1px rgba(var(--shadow-rgb),calc(0.3*var(--shadow-a))),
+                  0 6px 14px rgba(var(--shadow-rgb),calc(0.26*var(--shadow-a)));
+      transition: box-shadow 0.32s ease;
     }
-    /* folded bottom-right corner */
+    /* lifted corners: two skewed shadows peeking out below the sheet */
+    .sticky-grid .sticky::before,
     .sticky-grid .sticky::after {
       content: '';
       position: absolute;
-      right: 0; bottom: 0;
-      width: 20px; height: 20px;
-      background: linear-gradient(135deg, transparent 50%, rgba(var(--shadow-rgb),calc(0.38*var(--shadow-a))) 50%);
+      z-index: -2;
+      bottom: 12px;
+      width: 46%;
+      height: 30%;
+      box-shadow: 0 14px 12px rgba(var(--shadow-rgb),calc(0.55*var(--shadow-a)));
       pointer-events: none;
+      transition: box-shadow 0.32s ease;
     }
+    .sticky-grid .sticky::before { left: 8px;  transform: rotate(-3.5deg); }
+    .sticky-grid .sticky::after  { right: 8px; transform: rotate(3.5deg); }
+    /* straightens and lifts, like picking the note off the wall */
+    .sticky-grid .sticky:hover { transform: rotate(0deg) translateY(-6px); }
+    .sticky-grid .sticky:hover .sticky__paper {
+      box-shadow: 0 2px 3px rgba(var(--shadow-rgb),calc(0.26*var(--shadow-a))),
+                  0 14px 26px rgba(var(--shadow-rgb),calc(0.32*var(--shadow-a))),
+                  0 4px 12px color-mix(in srgb, var(--sn-acc) 16%, transparent);
+    }
+    .sticky-grid .sticky:hover::before,
+    .sticky-grid .sticky:hover::after { box-shadow: 0 20px 16px rgba(var(--shadow-rgb),calc(0.48*var(--shadow-a))); }
+
     /* alternating tilt + tint so no two neighbours look stamped */
-    .sticky-grid .sticky:nth-child(5n+1) { --tilt: -1.5deg; --note-a: var(--note-1a); --note-b: var(--note-1b); }
-    .sticky-grid .sticky:nth-child(5n+2) { --tilt:  1.1deg; --note-a: var(--note-2a); --note-b: var(--note-2b); }
-    .sticky-grid .sticky:nth-child(5n+3) { --tilt: -0.8deg; --note-a: var(--note-3a); --note-b: var(--note-3b); }
-    .sticky-grid .sticky:nth-child(5n+4) { --tilt:  1.6deg; --note-a: var(--note-4a); --note-b: var(--note-4b); }
-    .sticky-grid .sticky:nth-child(5n+5) { --tilt: -1.2deg; --note-a: var(--note-5a); --note-b: var(--note-5b); }
+    .sticky-grid .sticky:nth-child(6n+1) { --tilt: -1.5deg; --sn-acc: #bda6f5; --sn-bg: #281b3f; }
+    .sticky-grid .sticky:nth-child(6n+2) { --tilt:  1.1deg; --sn-acc: #93b4f2; --sn-bg: #182444; }
+    .sticky-grid .sticky:nth-child(6n+3) { --tilt: -0.8deg; --sn-acc: #cba2e6; --sn-bg: #2c1a37; }
+    .sticky-grid .sticky:nth-child(6n+4) { --tilt:  1.6deg; --sn-acc: #8ec5e8; --sn-bg: #152a3d; }
+    .sticky-grid .sticky:nth-child(6n+5) { --tilt: -1.2deg; --sn-acc: #a8bcfb; --sn-bg: #211c3e; }
+    .sticky-grid .sticky:nth-child(6n+6) { --tilt:  0.9deg; --sn-acc: #9db6f7; --sn-bg: #1a2140; }
 
     .sticky-grid .sticky__idx {
       position: absolute;
-      top: 0.55rem; right: 0.8rem;
+      top: 0.6rem; right: 0.85rem;
       font-family: 'Handlee', cursive;
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       letter-spacing: 0.04em;
-      color: rgba(var(--ink-rgb),0.3);
+      color: color-mix(in srgb, var(--sn-acc) 72%, transparent);
     }
     /* Handlee ships a single weight, so the lead is separated from the body
        by size and colour rather than by bold. Sizes run larger than the
        Inter equivalents because Handlee's x-height is noticeably smaller. */
     .sticky-grid .sticky__lead {
+      position: relative;
+      z-index: 1;
       margin: 0;
       padding-right: 1.9rem;               /* clears the index */
       font-family: 'Handlee', cursive;
       font-size: 1.1rem;
       line-height: 1.35;
-      color: var(--text);
+      color: #f1eefb;
     }
     .sticky-grid .sticky__body {
+      position: relative;
+      z-index: 1;
       margin: 0;
       font-family: 'Handlee', cursive;
       font-size: 0.98rem;
       line-height: 1.55;
-      color: rgba(var(--text-rgb),0.75);
+      color: rgba(241,238,251,0.88);
     }
+    /* corner illustration, drawn like the Outcome & Impact artwork */
+    .sticky-grid .sticky__art {
+      position: absolute;
+      right: 0.45rem; bottom: 0.45rem;
+      width: 86px; height: 86px;
+      color: var(--sn-acc);
+      --sticky-ink: var(--sn-bg);
+      pointer-events: none;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .sticky-grid .sticky:hover .sticky__art { transform: scale(1.08) rotate(-2deg); }
 
     /* ─── The Solution: editorial split rows ───
        Not another card grid - every other section on this page is one.
@@ -1858,34 +1890,46 @@
 
       <ul class="sticky-grid sticky-grid--three">
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">01</span>
           <p class="sticky__lead">Legal workflows and terminology.</p>
           <p class="sticky__body">The Australian legal context came with its own workflows and vocabulary, which had to be understood before they could be simplified.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stWa1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stWa1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><path d="M104 68v70" stroke="currentColor" stroke-opacity="0.32" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M84 140h40" stroke="currentColor" stroke-opacity="0.32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M68 80h72" stroke="currentColor" stroke-opacity="0.3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="104" cy="66" r="4" fill="currentColor" fill-opacity="0.34"/><path d="M68 80l-10 26M68 80l10 26M140 80l-10 22M140 80l10 22" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M56 106h24a12 12 0 0 1-24 0z" fill="url(#stWa1a)"/><path d="M56 106h24a12 12 0 0 1-24 0z" stroke="currentColor" stroke-opacity="0.24" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M128 102h24a12 12 0 0 1-24 0z" fill="url(#stWa1a)"/><path d="M128 102h24a12 12 0 0 1-24 0z" stroke="currentColor" stroke-opacity="0.24" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">02</span>
           <p class="sticky__lead">Complex document creation.</p>
           <p class="sticky__body">Detailed legal document creation had to be turned into user-friendly steps that anyone could follow.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stWa2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stWa2b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="54" y="60" width="58" height="78" rx="7" fill="url(#stWa2b)"/><rect x="54" y="60" width="58" height="78" rx="7" stroke="currentColor" stroke-opacity="0.16" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g fill="currentColor" fill-opacity="0.14"><rect x="63" y="72" width="38" height="4" rx="2.0" /><rect x="63" y="82" width="30" height="4" rx="2.0" /><rect x="63" y="92" width="40" height="4" rx="2.0" /><rect x="63" y="102" width="22" height="4" rx="2.0" /></g><circle cx="98" cy="122" r="9" fill="url(#stWa2a)"/><circle cx="98" cy="122" r="9" stroke="currentColor" stroke-opacity="0.26" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M136 80v14M136 108v14" stroke="currentColor" stroke-opacity="0.22" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="136" cy="72" r="8" fill="currentColor" fill-opacity="0.34"/><circle cx="136" cy="100" r="8" fill="currentColor" fill-opacity="0.22"/><circle cx="136" cy="128" r="8" fill="url(#stWa2b)"/><circle cx="136" cy="128" r="8" stroke="currentColor" stroke-opacity="0.28" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="3 3"/><path d="M132 72l3 3 5-6" style="stroke:var(--sticky-ink)" stroke-opacity="0.8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">03</span>
           <p class="sticky__lead">Poor usability and outdated UI.</p>
           <p class="sticky__body">The existing system was hard to use and visually outdated, so it needed rethinking, not just restyling.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stWa3a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stWa3b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="52" y="64" width="82" height="66" rx="2" fill="url(#stWa3b)"/><rect x="52" y="64" width="82" height="66" rx="2" stroke="currentColor" stroke-opacity="0.18" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="52" y="64" width="82" height="11" rx="2" fill="currentColor" fill-opacity="0.1"/><g fill="currentColor" fill-opacity="0.14"><rect x="60" y="84" width="44" height="4" rx="2.0" /><rect x="60" y="94" width="32" height="4" rx="2.0" /><rect x="60" y="104" width="50" height="4" rx="2.0" /></g><path d="M96 64l-6 17 9 8-7 15 5 10" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M132 102l22 38h-44z" fill="url(#stWa3a)"/><path d="M132 102l22 38h-44z" stroke="currentColor" stroke-opacity="0.28" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M132 116v12" stroke="currentColor" stroke-opacity="0.42" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="132" cy="134" r="1.7" fill="currentColor" fill-opacity="0.42"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">04</span>
           <p class="sticky__lead">Multiple packages, different journeys.</p>
           <p class="sticky__body">Each will package came with its own user journey, and all of them had to feel like one coherent product.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stWa4a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stWa4b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="56" y="58" width="24" height="20" rx="4" fill="url(#stWa4a)"/><rect x="92" y="58" width="24" height="20" rx="4" fill="url(#stWa4b)"/><rect x="92" y="58" width="24" height="20" rx="4" stroke="currentColor" stroke-opacity="0.2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="128" y="58" width="24" height="20" rx="4" fill="url(#stWa4a)"/><path d="M68 58v20M104 58v20M140 58v20" stroke="currentColor" stroke-opacity="0.18" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M68 80c0 24 36 18 36 40M104 80v40M140 80c0 24-36 18-36 40" stroke="currentColor" stroke-opacity="0.26" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="4 4"/><circle cx="104" cy="132" r="11" fill="url(#stWa4a)"/><circle cx="104" cy="132" r="11" stroke="currentColor" stroke-opacity="0.3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M99 132l4 4 7-8" stroke="currentColor" stroke-opacity="0.4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">05</span>
           <p class="sticky__lead">Consistency across devices.</p>
           <p class="sticky__body">The experience had to stay consistent across web, tablet and mobile.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stWa5a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stWa5b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="52" y="62" width="66" height="46" rx="5" fill="url(#stWa5a)"/><rect x="52" y="62" width="66" height="46" rx="5" stroke="currentColor" stroke-opacity="0.14" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M85 108v8M76 118h18" stroke="currentColor" stroke-opacity="0.26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="52" y="62" width="66" height="9" rx="4" fill="currentColor" fill-opacity="0.12"/><g fill="currentColor" fill-opacity="0.16"><rect x="59" y="78" width="36" height="4" rx="2.0" /><rect x="59" y="86" width="24" height="4" rx="2.0" /></g><rect x="98" y="90" width="38" height="52" rx="6" fill="url(#stWa5b)"/><rect x="98" y="90" width="38" height="52" rx="6" stroke="currentColor" stroke-opacity="0.2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="98" y="90" width="38" height="9" rx="4" fill="currentColor" fill-opacity="0.12"/><g fill="currentColor" fill-opacity="0.18"><rect x="104" y="106" width="24" height="4" rx="2.0" /><rect x="104" y="114" width="16" height="4" rx="2.0" /></g><rect x="138" y="108" width="18" height="36" rx="5" fill="url(#stWa5a)"/><rect x="138" y="108" width="18" height="36" rx="5" stroke="currentColor" stroke-opacity="0.2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="138" y="108" width="18" height="7" rx="3" fill="currentColor" fill-opacity="0.14"/><g fill="currentColor" fill-opacity="0.2"><rect x="142" y="121" width="10" height="3" rx="1.5" /><rect x="142" y="127" width="7" height="3" rx="1.5" /></g></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">06</span>
           <p class="sticky__lead">A full visual rebrand.</p>
           <p class="sticky__body">The project called for more polished UIs, so alongside improving the experience, the interface itself had to be rebranded.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stWa6a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stWa6b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><path d="M100 70c-26 0-44 18-44 38s18 34 36 34c8 0 10-6 6-11s-2-11 6-11h12c14 0 26-10 26-24 0-16-18-26-42-26z" fill="url(#stWa6a)"/><path d="M100 70c-26 0-44 18-44 38s18 34 36 34c8 0 10-6 6-11s-2-11 6-11h12c14 0 26-10 26-24 0-16-18-26-42-26z" stroke="currentColor" stroke-opacity="0.2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="76" cy="102" r="6" fill="currentColor" fill-opacity="0.36"/><circle cx="94" cy="86" r="6" fill="currentColor" fill-opacity="0.26"/><circle cx="116" cy="86" r="6" fill="currentColor" fill-opacity="0.18"/><circle cx="132" cy="100" r="6" fill="currentColor" fill-opacity="0.3"/><path d="M128 150l22-28" stroke="currentColor" stroke-opacity="0.34" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M124 148c-4 2-6 6-4 10 4 0 8-2 9-6z" fill="currentColor" fill-opacity="0.38"/><path d="M148 55C149.4 62.6 149.4 62.6 157 64C149.4 65.4 149.4 65.4 148 73C146.6 65.4 146.6 65.4 139 64C146.6 62.6 146.6 62.6 148 55Z" fill="currentColor" fill-opacity="0.3"/></svg>
         </li>
       </ul>
 

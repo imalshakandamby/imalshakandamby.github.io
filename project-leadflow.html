@@ -68,12 +68,6 @@
       --oi-5-bg:#2c1a37; --oi-5-acc:#cba2e6;
       --oi-6-bg:#1a2140; --oi-6-acc:#9db6f7;
 
-      /* sticky-note paper tints (5 cycling pairs) */
-      --note-1a:#2b2553; --note-1b:#1d1938;
-      --note-2a:#1f2b54; --note-2b:#161f3b;
-      --note-3a:#34244f; --note-3b:#241936;
-      --note-4a:#1c3047; --note-4b:#142232;
-      --note-5a:#3a2447; --note-5b:#281834;
 
       /* project tile grounds (index) */
       --proj-1:#041A0C; --proj-2:#130A2E; --proj-3:#141F04; --proj-4:#2A0717;
@@ -157,11 +151,6 @@
       --oi-5-bg:#ECE0F1; --oi-5-acc:#733BA5;
       --oi-6-bg:#E0E4F6; --oi-6-acc:#374BAE;
 
-      --note-1a:#E3DDF2; --note-1b:#D5CEE8;
-      --note-2a:#DDE3F3; --note-2b:#CED6EB;
-      --note-3a:#E9DFF0; --note-3b:#DBCFE7;
-      --note-4a:#DAE4EF; --note-4b:#CBD9E6;
-      --note-5a:#EADFF0; --note-5b:#DCCFE3;
 
       --proj-1:#D6E5DC; --proj-2:#DCD8EE; --proj-3:#DFE7D3; --proj-4:#EDD9E0;
 
@@ -211,7 +200,6 @@
 
     :root[data-theme="light"] .footer-brand__tagline { color: var(--green); }
     :root[data-theme="light"] .card-tag    { color: rgba(var(--ink-rgb), 0.78); }
-    :root[data-theme="light"] .sticky__idx { color: rgba(var(--ink-rgb), 0.72); }
     :root[data-theme="light"] .testi-card__mark { color: rgba(var(--violet-rgb), 0.85); }
 
     /* Highlights inside the case intro. Three strengths of the primary,
@@ -1101,10 +1089,14 @@
     }
 
     /* ─── Problem sticky notes ───
-       Dark-mode take on a physical sticky note: tinted paper, a slight
-       tilt, a lifted drop shadow and a folded bottom-right corner. Tints
-       stay inside the site's violet/indigo family rather than the bright
-       pastels of a real note, so it reads as this theme, not Post-it. */
+       Paper notes stuck to the wall, built in layers for realism: a tinted
+       sheet, a flatter adhesive band along the top, a
+       lower edge that catches the light as it curls away, and two skewed
+       shadows where the lifted corners leave the wall. Tints come from the
+       dark-theme Outcome & Impact palette and stay dark in both themes,
+       with light ink, so the handwriting keeps strong contrast everywhere.
+       Each note carries a small tonal illustration in its corner, built
+       the same way as those cards' artwork. */
     /* two classes so it outranks `.case-section ul` (0,1,1), which would
        otherwise indent the whole grid by 1.1rem.
        Flex rather than grid: with 5 notes in a 3-up layout, grid leaves the
@@ -1114,10 +1106,10 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1.25rem;
+      gap: 1.6rem 1.25rem;                 /* extra row gap for the corner shadows */
       list-style: none;
       padding-left: 0;
-      margin: 1.5rem 0 1.6rem;
+      margin: 1.5rem 0 1.9rem;
     }
     /* basis = (100% - total gaps) / columns, gap being 1.25rem */
     .case-section .sticky-grid .sticky        { flex: 0 1 calc(25% - 0.9375rem); }
@@ -1125,74 +1117,114 @@
 
     .sticky-grid .sticky {
       --tilt: 0deg;
+      --sn-acc: #bda6f5;
+      --sn-bg: #281b3f;
       position: relative;
+      isolation: isolate;                  /* keeps the paper and shadows inside the note */
       display: flex;
       flex-direction: column;
       gap: 0.45rem;
-      padding: 1.15rem 1.1rem 1.35rem;
-      border-radius: 2px 2px 3px 3px;      /* paper, not a rounded card */
-      background: linear-gradient(158deg, var(--note-a), var(--note-b));
-      box-shadow: 0 12px 22px rgba(var(--shadow-rgb),calc(0.42*var(--shadow-a))), 0 2px 6px rgba(var(--shadow-rgb),calc(0.35*var(--shadow-a)));
+      padding: 1.45rem 1.15rem 5.85rem;     /* bottom room for the illustration */
       transform: rotate(var(--tilt));
-      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
-                  box-shadow 0.32s ease;
+      transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    /* straightens and lifts, like picking the note off the wall */
-    .sticky-grid .sticky:hover {
-      transform: rotate(0deg) translateY(-6px);
-      box-shadow: 0 20px 34px rgba(var(--shadow-rgb),calc(0.5*var(--shadow-a))), 0 4px 12px rgba(var(--violet-rgb),0.16);
-    }
-    /* adhesive sheen across the top edge */
-    .sticky-grid .sticky::before {
-      content: '';
+    /* the sheet itself */
+    .sticky-grid .sticky__paper {
       position: absolute;
-      top: 0; left: 8%; right: 8%;
-      height: 12px;
-      background: linear-gradient(180deg, rgba(var(--ink-rgb),0.07), transparent);
-      pointer-events: none;
+      inset: 0;
+      z-index: -1;
+      border-radius: 2px 2px 5px 5px / 2px 2px 3px 3px;
+      background:
+        /* adhesive band: the glued strip sits flat and a touch darker */
+        linear-gradient(180deg, rgba(0,0,0,0.14) 0, rgba(0,0,0,0.06) 1.55rem, transparent 1.7rem),
+        /* curl: the free edge rolls away from the wall into shade */
+        linear-gradient(180deg, transparent 82%, rgba(0,0,0,0.24) 100%),
+        /* corner glow, as on the Outcome & Impact cards */
+        radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--sn-acc) 20%, transparent) 0, transparent 58%),
+        /* soft light falling on the top-left */
+        radial-gradient(120% 80% at 0% 0%, rgba(255,255,255,0.05), transparent 60%),
+        /* paper: the accent mixed into its own saturated card colour */
+        linear-gradient(158deg,
+          color-mix(in srgb, var(--sn-acc) 20%, var(--sn-bg)) 0%,
+          color-mix(in srgb, var(--sn-acc) 9%, var(--sn-bg)) 100%);
+      box-shadow: 0 1px 1px rgba(var(--shadow-rgb),calc(0.3*var(--shadow-a))),
+                  0 6px 14px rgba(var(--shadow-rgb),calc(0.26*var(--shadow-a)));
+      transition: box-shadow 0.32s ease;
     }
-    /* folded bottom-right corner */
+    /* lifted corners: two skewed shadows peeking out below the sheet */
+    .sticky-grid .sticky::before,
     .sticky-grid .sticky::after {
       content: '';
       position: absolute;
-      right: 0; bottom: 0;
-      width: 20px; height: 20px;
-      background: linear-gradient(135deg, transparent 50%, rgba(var(--shadow-rgb),calc(0.38*var(--shadow-a))) 50%);
+      z-index: -2;
+      bottom: 12px;
+      width: 46%;
+      height: 30%;
+      box-shadow: 0 14px 12px rgba(var(--shadow-rgb),calc(0.55*var(--shadow-a)));
       pointer-events: none;
+      transition: box-shadow 0.32s ease;
     }
+    .sticky-grid .sticky::before { left: 8px;  transform: rotate(-3.5deg); }
+    .sticky-grid .sticky::after  { right: 8px; transform: rotate(3.5deg); }
+    /* straightens and lifts, like picking the note off the wall */
+    .sticky-grid .sticky:hover { transform: rotate(0deg) translateY(-6px); }
+    .sticky-grid .sticky:hover .sticky__paper {
+      box-shadow: 0 2px 3px rgba(var(--shadow-rgb),calc(0.26*var(--shadow-a))),
+                  0 14px 26px rgba(var(--shadow-rgb),calc(0.32*var(--shadow-a))),
+                  0 4px 12px color-mix(in srgb, var(--sn-acc) 16%, transparent);
+    }
+    .sticky-grid .sticky:hover::before,
+    .sticky-grid .sticky:hover::after { box-shadow: 0 20px 16px rgba(var(--shadow-rgb),calc(0.48*var(--shadow-a))); }
+
     /* alternating tilt + tint so no two neighbours look stamped */
-    .sticky-grid .sticky:nth-child(5n+1) { --tilt: -1.5deg; --note-a: var(--note-1a); --note-b: var(--note-1b); }
-    .sticky-grid .sticky:nth-child(5n+2) { --tilt:  1.1deg; --note-a: var(--note-2a); --note-b: var(--note-2b); }
-    .sticky-grid .sticky:nth-child(5n+3) { --tilt: -0.8deg; --note-a: var(--note-3a); --note-b: var(--note-3b); }
-    .sticky-grid .sticky:nth-child(5n+4) { --tilt:  1.6deg; --note-a: var(--note-4a); --note-b: var(--note-4b); }
-    .sticky-grid .sticky:nth-child(5n+5) { --tilt: -1.2deg; --note-a: var(--note-5a); --note-b: var(--note-5b); }
+    .sticky-grid .sticky:nth-child(6n+1) { --tilt: -1.5deg; --sn-acc: #bda6f5; --sn-bg: #281b3f; }
+    .sticky-grid .sticky:nth-child(6n+2) { --tilt:  1.1deg; --sn-acc: #93b4f2; --sn-bg: #182444; }
+    .sticky-grid .sticky:nth-child(6n+3) { --tilt: -0.8deg; --sn-acc: #cba2e6; --sn-bg: #2c1a37; }
+    .sticky-grid .sticky:nth-child(6n+4) { --tilt:  1.6deg; --sn-acc: #8ec5e8; --sn-bg: #152a3d; }
+    .sticky-grid .sticky:nth-child(6n+5) { --tilt: -1.2deg; --sn-acc: #a8bcfb; --sn-bg: #211c3e; }
+    .sticky-grid .sticky:nth-child(6n+6) { --tilt:  0.9deg; --sn-acc: #9db6f7; --sn-bg: #1a2140; }
 
     .sticky-grid .sticky__idx {
       position: absolute;
-      top: 0.55rem; right: 0.8rem;
+      top: 0.6rem; right: 0.85rem;
       font-family: 'Handlee', cursive;
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       letter-spacing: 0.04em;
-      color: rgba(var(--ink-rgb),0.3);
+      color: color-mix(in srgb, var(--sn-acc) 72%, transparent);
     }
     /* Handlee ships a single weight, so the lead is separated from the body
        by size and colour rather than by bold. Sizes run larger than the
        Inter equivalents because Handlee's x-height is noticeably smaller. */
     .sticky-grid .sticky__lead {
+      position: relative;
+      z-index: 1;
       margin: 0;
       padding-right: 1.9rem;               /* clears the index */
       font-family: 'Handlee', cursive;
       font-size: 1.1rem;
       line-height: 1.35;
-      color: var(--text);
+      color: #f1eefb;
     }
     .sticky-grid .sticky__body {
+      position: relative;
+      z-index: 1;
       margin: 0;
       font-family: 'Handlee', cursive;
       font-size: 0.98rem;
       line-height: 1.55;
-      color: rgba(var(--text-rgb),0.75);
+      color: rgba(241,238,251,0.88);
     }
+    /* corner illustration, drawn like the Outcome & Impact artwork */
+    .sticky-grid .sticky__art {
+      position: absolute;
+      right: 0.45rem; bottom: 0.45rem;
+      width: 86px; height: 86px;
+      color: var(--sn-acc);
+      --sticky-ink: var(--sn-bg);
+      pointer-events: none;
+      transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .sticky-grid .sticky:hover .sticky__art { transform: scale(1.08) rotate(-2deg); }
 
     /* ─── The Solution: editorial split rows ───
        Not another card grid - every other section on this page is one.
@@ -1874,34 +1906,46 @@
 
       <ul class="sticky-grid sticky-grid--three">
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">01</span>
           <p class="sticky__lead">A new domain, fast.</p>
           <p class="sticky__body">Lead and call management was new to me, and there was little time to learn it before designing for it.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stLf1a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stLf1b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><circle cx="106" cy="106" r="34" fill="url(#stLf1a)"/><circle cx="106" cy="106" r="34" stroke="currentColor" stroke-opacity="0.18" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="106" cy="106" r="25" stroke="currentColor" stroke-opacity="0.12" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M106 74v6M106 132v6M74 106h6M132 106h6" stroke="currentColor" stroke-opacity="0.26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M106 84l7 22h-14z" fill="currentColor" fill-opacity="0.4"/><path d="M99 106h14l-7 22z" fill="currentColor" fill-opacity="0.14"/><circle cx="106" cy="106" r="3" fill="currentColor" fill-opacity="0.4"/><path d="M146 55C147.4 62.6 147.4 62.6 155 64C147.4 65.4 147.4 65.4 146 73C144.6 65.4 144.6 65.4 137 64C144.6 62.6 144.6 62.6 146 55Z" fill="currentColor" fill-opacity="0.3"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">02</span>
           <p class="sticky__lead">Strict time constraints.</p>
           <p class="sticky__body">The full design, from requirement document to working prototype, had to be delivered on a tight timeline.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stLf2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stLf2b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><circle cx="106" cy="110" r="34" fill="url(#stLf2a)"/><circle cx="106" cy="110" r="34" stroke="currentColor" stroke-opacity="0.18" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="100" y="66" width="12" height="9" rx="2" fill="currentColor" fill-opacity="0.28"/><path d="M133 80l6-6" stroke="currentColor" stroke-opacity="0.28" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="106" cy="110" r="26" stroke="currentColor" stroke-opacity="0.34" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" stroke-dasharray="42 200" transform="rotate(-90 106 110)"/><path d="M106 110V90M106 110l12 8" stroke="currentColor" stroke-opacity="0.36" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="106" cy="110" r="3" fill="currentColor" fill-opacity="0.4"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">03</span>
           <p class="sticky__lead">Limited time for research.</p>
           <p class="sticky__body">There was no room for in-depth research, so decisions leaned on the requirement document and team input.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stLf3a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stLf3b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="54" y="62" width="62" height="78" rx="7" fill="url(#stLf3b)"/><rect x="54" y="62" width="62" height="78" rx="7" stroke="currentColor" stroke-opacity="0.16" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g fill="currentColor" fill-opacity="0.14"><rect x="63" y="74" width="40" height="4" rx="2.0" /><rect x="63" y="84" width="30" height="4" rx="2.0" /><rect x="63" y="94" width="44" height="4" rx="2.0" /><rect x="63" y="104" width="24" height="4" rx="2.0" /><rect x="63" y="114" width="36" height="4" rx="2.0" /></g><circle cx="110" cy="108" r="18" fill="url(#stLf3a)"/><circle cx="110" cy="108" r="18" stroke="currentColor" stroke-opacity="0.3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M123 121l15 15" stroke="currentColor" stroke-opacity="0.34" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M140 58h14l-7 12 7 12h-14l7-12z" fill="currentColor" fill-opacity="0.22"/><path d="M140 58h14l-7 12 7 12h-14l7-12z" stroke="currentColor" stroke-opacity="0.32" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">04</span>
           <p class="sticky__lead">AI credit limits.</p>
           <p class="sticky__body">Figma Make (AI) sped up screen generation, but prompt usage had to stay within credit limits.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stLf4a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stLf4b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><path d="M60 134a44 44 0 0 1 88 0z" fill="url(#stLf4a)"/><path d="M60 134a44 44 0 0 1 88 0" stroke="currentColor" stroke-opacity="0.16" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M60 134A44 44 0 0 1 68 108.8" stroke="currentColor" stroke-opacity="0.4" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M104 134l-28-16" stroke="currentColor" stroke-opacity="0.38" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="104" cy="134" r="5" fill="currentColor" fill-opacity="0.38"/><path d="M126 93C127.8 102.2 127.8 102.2 137 104C127.8 105.8 127.8 105.8 126 115C124.2 105.8 124.2 105.8 115 104C124.2 102.2 124.2 102.2 126 93Z" fill="currentColor" fill-opacity="0.32"/><path d="M146 59C147.1 64.9 147.1 64.9 153 66C147.1 67.1 147.1 67.1 146 73C144.9 67.1 144.9 67.1 139 66C144.9 64.9 144.9 64.9 146 59Z" fill="currentColor" fill-opacity="0.24"/></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">05</span>
           <p class="sticky__lead">Two experiences at once.</p>
           <p class="sticky__body">The mobile caller app and the admin dashboard had to be delivered simultaneously, each with its own context and needs.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stLf5a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stLf5b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="54" y="70" width="36" height="66" rx="7" fill="url(#stLf5a)"/><rect x="54" y="70" width="36" height="66" rx="7" stroke="currentColor" stroke-opacity="0.16" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="66" y="75" width="12" height="3" rx="1.5" fill="currentColor" fill-opacity="0.28"/><g fill="currentColor" fill-opacity="0.2"><rect x="60" y="86" width="24" height="4" rx="2.0" /><rect x="60" y="95" width="18" height="4" rx="2.0" /><rect x="60" y="104" width="22" height="4" rx="2.0" /><rect x="60" y="113" width="14" height="4" rx="2.0" /></g><path d="M96 100v8M92 104h8" stroke="currentColor" stroke-opacity="0.36" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="102" y="78" width="54" height="46" rx="6" fill="url(#stLf5b)"/><rect x="102" y="78" width="54" height="46" rx="6" stroke="currentColor" stroke-opacity="0.18" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="102" y="78" width="54" height="9" rx="4" fill="currentColor" fill-opacity="0.08"/><g fill="currentColor" fill-opacity="0.24"><rect x="111" y="108" width="7" height="10" rx="1.5" /><rect x="122" y="100" width="7" height="18" rx="1.5" /><rect x="133" y="94" width="7" height="24" rx="1.5" /><rect x="144" y="104" width="7" height="14" rx="1.5" /></g></svg>
         </li>
         <li class="sticky">
+          <span class="sticky__paper" aria-hidden="true"></span>
           <span class="sticky__idx" aria-hidden="true">06</span>
           <p class="sticky__lead">A manual, spreadsheet-based process.</p>
           <p class="sticky__body">Callers typed every lead detail into Excel by hand, and the co-founders and CEO received raw sheets they had to process before they could act on them.</p>
+          <svg class="sticky__art" viewBox="44 44 116 116" aria-hidden="true" focusable="false"><defs><linearGradient id="stLf6a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.34"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.03"/></linearGradient><linearGradient id="stLf6b" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="currentColor" stop-opacity="0.20"/><stop offset="100%" stop-color="currentColor" stop-opacity="0.02"/></linearGradient></defs><rect x="52" y="62" width="86" height="68" rx="6" fill="url(#stLf6b)"/><rect x="52" y="62" width="86" height="68" rx="6" stroke="currentColor" stroke-opacity="0.16" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="52" y="62" width="86" height="12" rx="4" fill="currentColor" fill-opacity="0.1"/><path d="M80 62v68M108 62v68M52 86h86M52 98h86M52 110h86M52 122h86" stroke="currentColor" stroke-opacity="0.12" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g fill="currentColor" fill-opacity="0.2"><rect x="56" y="89" width="20" height="6" rx="2" /><rect x="84" y="101" width="20" height="6" rx="2" /><rect x="56" y="113" width="20" height="6" rx="2" /></g><path d="M120 144l25-25 9 9-25 25-12 3z" fill="url(#stLf6a)"/><path d="M120 144l25-25 9 9-25 25-12 3z" stroke="currentColor" stroke-opacity="0.28" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M140 124l9 9" stroke="currentColor" stroke-opacity="0.26" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
         </li>
       </ul>
 
