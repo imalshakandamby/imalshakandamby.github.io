@@ -738,21 +738,30 @@
       gap: 1rem;
     }
 
+    /* animatable angle for the border sweep on hover */
+    @property --tile-angle {
+      syntax: '<angle>';
+      initial-value: 135deg;
+      inherits: false;
+    }
+
     .tile {
       border-radius: var(--radius);
       overflow: hidden;
-      border: 1px solid rgba(var(--ink-rgb),0.13);
       background: var(--surface);
       position: relative;
       aspect-ratio: 4 / 3;
       isolation: isolate;
-      transition: transform 0.28s ease, border-color 0.28s ease;
+      box-shadow: 0 6px 18px rgba(var(--shadow-rgb),calc(0.22*var(--shadow-a)));
+      transition: transform 0.28s ease, box-shadow 0.28s ease;
       cursor: pointer;
     }
 
     .tile:hover {
       transform: translateY(-4px);
-      border-color: rgba(var(--violet-rgb),0.4);
+      box-shadow: 0 14px 34px rgba(var(--shadow-rgb),calc(0.3*var(--shadow-a))),
+                  0 0 0 1px rgba(var(--violet-rgb),0.12),
+                  0 10px 30px rgba(var(--violet-rgb),0.22);
     }
 
     .tile:focus-visible {
@@ -760,14 +769,48 @@
       outline-offset: 2px;
     }
 
+    /* Gradient border: a 1.5px ring masked out of a full-size gradient, so
+       it can sit over the tile's inline background image. A violet-to-
+       periwinkle sweep fades to a hairline down the sides; on hover the
+       sweep turns into a conic gradient that travels around the edge. */
     .tile::before {
       content: '';
       position: absolute;
       inset: 0;
-      background-size: cover;
-      background-position: center;
-      filter: saturate(1.08) contrast(1.02);
-      z-index: -2;
+      z-index: 2;
+      padding: 1.5px;
+      border-radius: inherit;
+      background: linear-gradient(var(--tile-angle),
+                    rgba(var(--violet-rgb),0.9) 0%,
+                    rgba(var(--grad-hi-rgb),0.45) 22%,
+                    rgba(var(--ink-rgb),0.12) 45%,
+                    rgba(var(--ink-rgb),0.12) 62%,
+                    rgba(var(--grad-hi-rgb),0.4) 82%,
+                    rgba(var(--violet-rgb),0.75) 100%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+              mask-composite: exclude;
+      pointer-events: none;
+    }
+    .tile:hover::before,
+    .tile:focus-visible::before {
+      background: conic-gradient(from var(--tile-angle),
+                    rgba(var(--violet-rgb),1),
+                    rgba(var(--grad-hi-rgb),0.85) 18%,
+                    rgba(var(--ink-rgb),0.14) 38%,
+                    rgba(var(--ink-rgb),0.14) 62%,
+                    rgba(var(--grad-hi-rgb),0.85) 82%,
+                    rgba(var(--violet-rgb),1));
+      animation: tile-sweep 4s linear infinite;
+    }
+    @keyframes tile-sweep {
+      from { --tile-angle: 135deg; }
+      to   { --tile-angle: 495deg; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tile:hover::before,
+      .tile:focus-visible::before { animation: none; }
     }
 
     .tile::after {
@@ -785,14 +828,6 @@
     .tile--e,
     .tile--f,
     .tile--g { grid-column: span 4; }
-
-    .tile--a::before { background-image: none; }
-    .tile--b::before { background-image: none; }
-    .tile--c::before { background-image: none; }
-    .tile--d::before { background-image: none; }
-    .tile--e::before { background-image: none; }
-    .tile--f::before { background-image: none; }
-    .tile--g::before { background-image: none; }
 
     .tile-body {
       position: absolute;
